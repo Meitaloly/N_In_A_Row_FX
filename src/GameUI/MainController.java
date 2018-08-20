@@ -88,6 +88,7 @@ public class MainController {
             Pane root = loader.load();
             LoaderController loaderController = loader.getController();
             loaderController.setPrimaryStage(LoaderStage);
+            loaderController.setGameManager(gameManager);
             LoaderStage.setScene(new Scene(root));
             primaryStage.hide();
             LoaderStage.show();

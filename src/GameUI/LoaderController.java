@@ -13,6 +13,11 @@ public class LoaderController {
     @FXML
     Label LoadingLabel;
     private Stage primaryStage;
+    private GameManager gameManager;
+
+    public void setGameManager(GameManager gameManager) {
+        this.gameManager = gameManager;
+    }
 
     public static void sleepForAWhile(long sleepTime) {
 

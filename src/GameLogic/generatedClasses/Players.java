@@ -75,4 +75,9 @@ public class Players {
         return this.player;
     }
 
+    public int getNumOfPlayers()
+    {
+        return player.size();
+    }
+
 }

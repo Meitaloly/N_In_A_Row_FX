@@ -6,8 +6,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.math.BigInteger;
-import java.nio.file.Files;
-import java.util.jar.JarException;
 
 public class XmlFileUtils {
     private String path;
@@ -16,11 +14,13 @@ public class XmlFileUtils {
     private BigInteger numOfCols;
     private int numOfRows;
     private BigInteger target;
+    private GameManager gameManager;
 
-//    public XmlFileUtils(String pathStr)
-//    {
-//        path = pathStr;
-//    }
+
+    public void setGameManager(GameManager gm)
+    {
+        this.gameManager = gm;
+    }
 
     public void setFilePath(String newPath)
     {
@@ -42,7 +42,7 @@ public class XmlFileUtils {
                 validationNumber = 5; // not XML FILE
             }
             else {
-                desc = parseXmltoJaxbMachine();
+                gameManager.setDesc(parseXmltoJaxbMachine());
 
                 if (!checkValidNumOfRows()) {
                     validationNumber = 1; // num of rows not good
@@ -52,6 +52,10 @@ public class XmlFileUtils {
                     validationNumber = 3; // target bigger then rows or cols
                 } else if (target.longValue() == 0) {
                     validationNumber = 4; // target = 0
+                } else if (!checkValidNumOfPlayers()) {
+                    validationNumber = 5; // num of players not in range
+                } else if (!checkValidPlayersId()) {
+                    validationNumber = 6; // 2 player are with the same id
                 }
             }
         }
@@ -62,6 +66,24 @@ public class XmlFileUtils {
         }
 
         return validationNumber;
+    }
+
+    public boolean checkValidNumOfPlayers()
+    {
+        boolean res = true;
+        GameLogic.generatedClasses.Players players = desc.getPlayers();
+        int numOfPlayers = players.getNumOfPlayers();
+        if(numOfPlayers < 2 || numOfPlayers > 6) {
+            res = false;
+        }
+        return res;
+    }
+
+    public boolean checkValidPlayersId()
+    {
+        boolean res = true;
+        gameManager.buildPlayersFromFile();
+        return res;
     }
 
     public boolean checkTypeOfFileExtension()
