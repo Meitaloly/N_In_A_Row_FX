@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" styleClass="LoaderWin" stylesheets="@../resoures/CssStyleFiles/LoadingWindow.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GameUI.LoaderController">
+   <center>
+      <HBox prefHeight="137.0" prefWidth="76.0" BorderPane.alignment="CENTER">
+         <children>
+            <Region prefHeight="200.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
+            <VBox prefHeight="200.0" prefWidth="314.0">
+               <children>
+                  <Region prefHeight="24.0" prefWidth="240.0" VBox.vgrow="ALWAYS" />
+                  <Label fx:id="LoadingLabel" alignment="CENTER" prefHeight="58.0" prefWidth="332.0" text="Loading XML File" textFill="WHITE" VBox.vgrow="ALWAYS">
+                     <font>
+                        <Font name="System Bold Italic" size="18.0" />
+                     </font>
+                  </Label>
+                  <ProgressBar fx:id="progressBar" prefHeight="52.0" prefWidth="328.0" progress="0.0" VBox.vgrow="ALWAYS" />
+                  <Region prefHeight="41.0" prefWidth="240.0" VBox.vgrow="ALWAYS" />
+               </children>
+            </VBox>
+            <Region prefHeight="200.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+   </center>
+</BorderPane>

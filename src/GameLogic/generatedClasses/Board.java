@@ -6,7 +6,7 @@
 //
 
 
-package LogicEngine.generatedClasses;
+package GameLogic.generatedClasses;
 
 import java.math.BigInteger;
 import javax.xml.bind.annotation.XmlAccessType;

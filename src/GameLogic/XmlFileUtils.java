@@ -1,6 +1,6 @@
-package LogicEngine;
+package GameLogic;
 
-import LogicEngine.generatedClasses.GameDescriptor;
+import GameLogic.generatedClasses.GameDescriptor;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -10,17 +10,17 @@ import java.nio.file.Files;
 import java.util.jar.JarException;
 
 public class XmlFileUtils {
-    String path;
-    File xmlFilePath;
-    GameDescriptor desc;
-    BigInteger numOfCols;
-    int numOfRows;
-    BigInteger target;
+    private String path;
+    private File xmlFilePath;
+    private GameDescriptor desc;
+    private BigInteger numOfCols;
+    private int numOfRows;
+    private BigInteger target;
 
-    public XmlFileUtils(String pathStr)
-    {
-        path = pathStr;
-    }
+//    public XmlFileUtils(String pathStr)
+//    {
+//        path = pathStr;
+//    }
 
     public void setFilePath(String newPath)
     {

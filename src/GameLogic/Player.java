@@ -1,4 +1,4 @@
-package LogicEngine;
+package GameLogic;
 
 public class Player {
     private Integer id;

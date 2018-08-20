@@ -1,4 +1,4 @@
-package LogicEngine;
+package GameLogic;
 
 import java.util.TimerTask;
 

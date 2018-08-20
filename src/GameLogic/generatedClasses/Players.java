@@ -6,7 +6,7 @@
 //
 
 
-package LogicEngine.generatedClasses;
+package GameLogic.generatedClasses;
 
 import java.util.ArrayList;
 import java.util.List;

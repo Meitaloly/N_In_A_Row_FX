@@ -1,0 +1,9 @@
+.LoaderWin{
+    -fx-background-color:
+            #c87a6a,
+            linear-gradient(#bf8475 0%, #e6b5d8 20%, #4bb7be 100%),
+            linear-gradient(#8cd4d7, #c87a6a),
+            radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+
+    -fx-effect: dropshadow( three-pass-box , rgba(200, 122, 106, 0.6), 5, 0.0 , 0 , 1 );
+}

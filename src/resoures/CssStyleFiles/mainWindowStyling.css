@@ -1,0 +1,41 @@
+.mainWin{
+    -fx-background-image: url("../background.png");
+    -fx-background-size: stretch;
+}
+
+.mainBtn{
+    -fx-background-color:
+            linear-gradient(#039195, #c87a6a),
+            linear-gradient(#4bb7be, #8c9987),
+            linear-gradient(#8cd4d7, #0a8489),
+            linear-gradient(#30aab2 0%, #8b9a89 50%, #c87a6a 100%),
+            linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 30;
+    -fx-background-insets: 0,1,2,3,0;
+    -fx-text-fill: #e2f8ff;
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-padding: 10 20 10 20;
+}
+
+.mainBtn:hover {
+    -fx-background-color:
+            linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0)),
+            linear-gradient(#30aab2 0%, #8b9a89 50%, #c87a6a 100%),
+            linear-gradient(#8cd4d7, #0a8489),
+            linear-gradient(#4bb7be, #8c9987),
+            linear-gradient(#039195, #c87a6a);
+
+}
+
+.titlePic{
+    -fx-background-image: url("../NinARow-title.png");
+    -fx-background-size: stretch;
+}
+
+.pathLable{
+    -fx-text-fill: #bf8475;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+
+}

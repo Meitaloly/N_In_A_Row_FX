@@ -1,4 +1,4 @@
-package LogicEngine;
+package GameLogic;
 
 import java.util.Arrays;
 
@@ -8,6 +8,8 @@ public class GameBoard {
     long target;
     int[][] board;
     int numOfFreePlaces;
+
+    public GameBoard(){}
 
     public void setGameBoard(long i_rows, long i_cols, long i_target)
     {

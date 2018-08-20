@@ -8,11 +8,12 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GameUI.MainController">
+<GridPane fx:id="mainGridPane" alignment="center" hgap="10" prefHeight="600.0" prefWidth="1000.0" styleClass="mainWin" stylesheets="@../resoures/CssStyleFiles/mainWindowStyling.css" vgap="10" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GameUI.MainController">
     <columnConstraints>
         <ColumnConstraints />
     </columnConstraints>
@@ -20,58 +21,81 @@
         <RowConstraints />
     </rowConstraints>
     <children>
-        <BorderPane prefHeight="591.0" prefWidth="751.0">
-            <top>
-                <VBox prefHeight="156.0" prefWidth="860.0" BorderPane.alignment="CENTER">
+        <BorderPane prefHeight="600.0" prefWidth="1000.0" style="-fx-background-image: /;">
+         <center>
+                <VBox prefHeight="386.0" prefWidth="751.0" BorderPane.alignment="CENTER">
                     <children>
-                        <HBox prefHeight="45.0" prefWidth="860.0">
-                            <children>
-                                <Label alignment="CENTER" prefHeight="27.0" prefWidth="752.0" text="N IN A ROW GAME ">
-                                    <padding>
-                                        <Insets top="10.0" />
-                                    </padding>
-                                    <font>
-                                        <Font name="Miriam" size="20.0" />
-                                    </font>
-                                </Label>
-                            </children>
-                        </HBox>
-                        <HBox prefHeight="35.0" prefWidth="860.0">
-                            <children>
-                                <Pane prefHeight="35.0" prefWidth="75.0" />
-                                <Button mnemonicParsing="false" onAction="#openFileButtonAction" prefHeight="31.0" prefWidth="150.0" text="Load FIle">
-                                    <HBox.margin>
-                                        <Insets />
-                                    </HBox.margin>
+                  <VBox alignment="CENTER">
+                     <children>
+                                <Pane prefHeight="47.0" prefWidth="751.0" />
+                                <Button mnemonicParsing="false" onAction="#openFileButtonAction" prefHeight="50.0" prefWidth="250.0" styleClass="mainBtn" text="Load File" textFill="#15616b">
+                           <font>
+                              <Font name="Calibri Light" size="20.0" />
+                           </font>
                                 </Button>
                                 <Pane prefHeight="35.0" prefWidth="75.0" />
-                                <Button fx:id="startGameBtn" mnemonicParsing="false" prefHeight="31.0" prefWidth="150.0" text="Start game">
-                                    <HBox.margin>
-                                        <Insets />
-                                    </HBox.margin>
+                                <Button fx:id="startGameBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" styleClass="mainBtn" text="Start game" textFill="#15616b">
+                           <font>
+                              <Font name="Calibri Light" size="20.0" />
+                           </font>
                                 </Button>
                                 <Pane prefHeight="35.0" prefWidth="75.0" />
-                                <Button fx:id="exitCurrGameBtn" mnemonicParsing="false" prefHeight="34.0" prefWidth="150.0" text="Exit current game ">
-                                    <HBox.margin>
-                                        <Insets />
-                                    </HBox.margin></Button>
+                                <Button fx:id="exitCurrGameBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" styleClass="mainBtn" text="Exit current game " textFill="#15616b">
+                           <font>
+                              <Font name="Calibri Light" size="20.0" />
+                           </font>
+                        </Button>
                                 <Pane prefHeight="35.0" prefWidth="75.0" />
-                            </children>
-                        </HBox>
+                     </children>
+                  </VBox>
                         <HBox prefHeight="40.0" prefWidth="860.0">
-                            <children>
-                                <Pane prefHeight="40.0" prefWidth="30.0" />
-                                <Label prefHeight="40.0" prefWidth="70.0" text="File path:" textFill="#1d01f2">
-                                    <HBox.margin>
-                                        <Insets />
-                                    </HBox.margin>
-                                </Label>
-                                <Label fx:id="fileNameLable" prefHeight="40.0" prefWidth="695.0" HBox.hgrow="ALWAYS" />
-                            </children>
+                     <children>
+                        <HBox prefHeight="29.0" prefWidth="756.0">
+                           <children>
+                              <Region prefHeight="200.0" prefWidth="200.0" />
+                           </children>
+                        </HBox>
+                     </children>
                         </HBox>
                     </children>
                 </VBox>
-            </top>
+         </center>
+         <top>
+            <HBox prefHeight="188.0" prefWidth="750.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Region prefHeight="200.0" prefWidth="125.0" HBox.hgrow="ALWAYS" />
+                  <Pane prefHeight="138.0" prefWidth="500.0" styleClass="titlePic" />
+                  <Region prefHeight="200.0" prefWidth="125.0" HBox.hgrow="ALWAYS" />
+               </children>
+               <padding>
+                  <Insets bottom="20.0" top="50.0" />
+               </padding>
+            </HBox>
+         </top>
+         <bottom>
+            <BorderPane prefHeight="84.0" prefWidth="751.0" BorderPane.alignment="CENTER">
+               <left>
+                          <Label fx:id="filePathLable" contentDisplay="CENTER" prefHeight="37.0" prefWidth="92.0" styleClass="pathLable" textFill="#1d01f2" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <BorderPane.margin>
+                        <Insets left="10.0" />
+                     </BorderPane.margin>
+                          </Label>
+               </left>
+               <bottom>
+                          <Label fx:id="fileNameLable" prefHeight="47.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets left="10.0" top="-30.0" />
+                     </BorderPane.margin>
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+               </bottom>
+            </BorderPane>
+         </bottom>
         </BorderPane>
     </children>
 </GridPane>

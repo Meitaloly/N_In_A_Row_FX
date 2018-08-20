@@ -6,7 +6,7 @@
 //
 
 
-package LogicEngine.generatedClasses;
+package GameLogic.generatedClasses;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;
