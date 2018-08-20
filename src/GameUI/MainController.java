@@ -125,6 +125,12 @@ public class MainController {
             case 5:
                 msg = "Not XML file!";
                 break;
+            case 6:
+                msg = "Number of players not in range!";
+                break;
+            case 7:
+                msg = "There are 2 players with the same ID!";
+                break;
         }
 
         return msg;

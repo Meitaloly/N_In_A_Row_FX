@@ -53,9 +53,9 @@ public class XmlFileUtils {
                 } else if (target.longValue() == 0) {
                     validationNumber = 4; // target = 0
                 } else if (!checkValidNumOfPlayers()) {
-                    validationNumber = 5; // num of players not in range
+                    validationNumber = 6; // num of players not in range
                 } else if (!checkValidPlayersId()) {
-                    validationNumber = 6; // 2 player are with the same id
+                    validationNumber = 7; // 2 player are with the same id
                 }
             }
         }
@@ -71,7 +71,7 @@ public class XmlFileUtils {
     public boolean checkValidNumOfPlayers()
     {
         boolean res = true;
-        GameLogic.generatedClasses.Players players = desc.getPlayers();
+        GameLogic.generatedClasses.Players players = gameManager.getDesc().getPlayers();
         int numOfPlayers = players.getNumOfPlayers();
         if(numOfPlayers < 2 || numOfPlayers > 6) {
             res = false;
@@ -104,7 +104,7 @@ public class XmlFileUtils {
     public boolean checkRowAndColsBiggerThenTarget()
     {
         boolean res = false;
-        target = desc.getGame().getTarget();
+        target = gameManager.getDesc().getGame().getTarget();
         if(numOfCols.longValue() > target.longValue() && numOfRows > target.longValue())
         {
             res  =true;
@@ -116,7 +116,7 @@ public class XmlFileUtils {
     private boolean checkValidNumOfCols()
     {
         boolean res = false;
-        numOfCols = desc.getGame().getBoard().getColumns();
+        numOfCols = gameManager.getDesc().getGame().getBoard().getColumns();
         if(numOfCols.longValue() >= 6 && numOfCols.longValue() <= 30)
         {
             res= true;
@@ -128,7 +128,7 @@ public class XmlFileUtils {
     private boolean checkValidNumOfRows()
     {
         boolean res = false;
-        numOfRows = desc.getGame().getBoard().getRows();
+        numOfRows = gameManager.getDesc().getGame().getBoard().getRows();
         if(numOfRows>= 5 && numOfRows<=50)
         {
             res= true;
