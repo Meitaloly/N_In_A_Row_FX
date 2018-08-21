@@ -81,9 +81,7 @@ public class XmlFileUtils {
 
     public boolean checkValidPlayersId()
     {
-        boolean res = true;
-        gameManager.buildPlayersFromFile();
-        return res;
+        return gameManager.buildPlayersFromFile();
     }
 
     public boolean checkTypeOfFileExtension()

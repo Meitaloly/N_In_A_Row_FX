@@ -3,19 +3,19 @@ package GameLogic;
 public class Player {
     private Integer id;
     private String name;
-    private char playerSign;
-    private int playerType; // 1 = human  2 = computer
+    private int playerColor;
+    private String playerType;
     private int turnCounter = 0;
 
     public Integer getId() {
         return id;
     }
 
-    public char getPlayerSign() {
-        return playerSign;
+    public int getPlayerSign() {
+        return playerColor;
     }
 
-    public int getPlayerType() {
+    public String getPlayerType() {
         return playerType;
     }
 
@@ -27,22 +27,16 @@ public class Player {
         this.name = name;
     }
 
-    public void setPlayerSign(char playerSign) {
-        this.playerSign = playerSign;
+    public void setPlayerColor(int playerColor) {
+        this.playerColor = playerColor;
     }
 
-    public void setPlayerType(int playerType) {
+    public void setPlayerType(String playerType) {
         this.playerType = playerType;
     }
 
     public void setId(Integer id) {
         this.id = id;
-        this.name = "player " + (id+1);
-        if (id == 0) {
-            setPlayerSign('@');
-        } else {
-            setPlayerSign('#');
-        }
     }
 
     public void incTurnCounter()

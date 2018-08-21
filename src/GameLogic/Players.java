@@ -37,7 +37,7 @@ public class Players {
         for(Player player: players.values())
         {
             if(player.getId() == turnIndex) {
-                if (player.getPlayerType() == 2) // computer
+                if (player.getPlayerType().toUpperCase().equals("COMPUTER")) // computer
                 {
                     res = true;
                 }
@@ -61,7 +61,7 @@ public class Players {
 
         for(Player player: players.values())
         {
-            if(player.getPlayerType() == 2) // computer
+            if (player.getPlayerType().toUpperCase().equals("COMPUTER")) // computer
             {
                 gameBoard.setSignOnBoard(choosenCol,player);
             }
