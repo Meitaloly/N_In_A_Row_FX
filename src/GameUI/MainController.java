@@ -3,8 +3,10 @@ package GameUI;
 import GameLogic.GameManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -97,6 +99,32 @@ public class MainController {
         }
         return gameManager.checkXmlFile(path);
     }
+
+    public void startGame() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            URL gameUrl = getClass().getResource("Game.fxml");
+            loader.setLocation(gameUrl);
+            Stage gameStage = new Stage();
+            gameStage.setTitle("N IN A ROW GAME");
+            Pane root = loader.load();
+            GameController gameController = loader.getController();
+            gameController.setPrimaryStage(gameStage);
+            gameController.setGameManager(gameManager);
+            Scene scene = new Scene(root, 800, 500);
+            gameStage.setScene(scene);
+
+            primaryStage.hide();
+            gameStage.show();
+            gameController.showPlayersToScreen();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
 
     private String ErrorMessageFromXmlFile(int num)
     {

@@ -60,4 +60,29 @@ public class GameManager {
         }
         return res;
     }
+
+    public int numOfPlayers(){
+        return playersInMap.size();
+    }
+
+    public int getPlayerId (int i){
+        return playersInMap.get(i).getId();
+    }
+
+    public String getPlayerName (int i){
+        return playersInMap.get(i).getName();
+    }
+
+    public int getPlayerNumOfTurns (int i){
+        return playersInMap.get(i).getTurnCounter();
+    }
+
+    public String getPlayerType (int i){
+        return playersInMap.get(i).getPlayerType();
+    }
+
+/*
+    public int getPlayerColor (int i){
+        return playersInMap.get(i)();
+    }*/
 }
