@@ -1,10 +1,12 @@
 package GameUI;
 
 import GameLogic.GameManager;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class LoaderController {
@@ -14,6 +16,7 @@ public class LoaderController {
     Label LoadingLabel;
     private Stage primaryStage;
     private GameManager gameManager;
+    private Thread LoaderThread;
 
     public void setGameManager(GameManager gameManager) {
         this.gameManager = gameManager;
@@ -48,15 +51,22 @@ public class LoaderController {
         primaryStage.close();
     }
 
-    public void RunTask(GameManager game, String path, Stage mainStage) throws InterruptedException {
+    public int RunTask(GameManager game, String path, Stage mainStage, MainController mainController) throws InterruptedException {
+        final int[] res = new int[1];
         Task<Integer> currentRunningTask = new LoadFileTask(game, path);
         bindTaskToUIComponents(currentRunningTask);
-        currentRunningTask.setOnSucceeded(e -> {
-            mainStage.show();
-        });
+        currentRunningTask.setOnSucceeded(e -> Platform .runLater( () ->
+                {
+                    mainStage.show();
+                    res[0] = currentRunningTask.getValue();
+                    mainController.doWhenTaskFinish(res[0]);
+                }
+                )
+        );
 
-        Thread LoaderThread = new Thread(currentRunningTask);
-        LoaderThread.setName("loaferThread");
+        LoaderThread = new Thread(currentRunningTask);
+        LoaderThread.setName("loaderThread");
         LoaderThread.start();
+        return res[0];
     }
 }

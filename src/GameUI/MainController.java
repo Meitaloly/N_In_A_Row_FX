@@ -27,6 +27,7 @@ public class MainController {
 
     private Stage primaryStage;
     private GameManager gameManager;
+    private File selectedFile;
 
     public MainController()
     {
@@ -47,7 +48,7 @@ public class MainController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select xml file");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML File", "*.xml"));
-        File selectedFile = fileChooser.showOpenDialog(primaryStage);
+        selectedFile = fileChooser.showOpenDialog(primaryStage);
         if (selectedFile == null) {
             return;
         }
@@ -55,7 +56,10 @@ public class MainController {
         {
             res = LoadFromTask(selectedFile.getPath());
         }
+    }
 
+    public void doWhenTaskFinish(int res)
+    {
         if(res != -1)
         {
             String msg = ErrorMessageFromXmlFile(res);
@@ -76,6 +80,7 @@ public class MainController {
     }
 
     private int LoadFromTask(String path){
+        int res = -1;
         try {
             FXMLLoader loader = new FXMLLoader();
             URL loadFXML = Main.class.getResource("Loader.fxml");
@@ -90,14 +95,15 @@ public class MainController {
             LoaderStage.setScene(new Scene(root));
             primaryStage.hide();
             LoaderStage.show();
-            loaderController.RunTask(gameManager,path,primaryStage);
+            res = loaderController.RunTask(gameManager, path, primaryStage, this);
+
         }
         catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return gameManager.checkXmlFile(path);
+        return res;
     }
 
     public void startGame() {

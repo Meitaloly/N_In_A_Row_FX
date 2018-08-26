@@ -23,10 +23,21 @@ public class GameManager {
         gameBoard = new GameBoard();
     }
 
+    public ArrayList<GameLogic.Player> getPlayersByOrder()
+    {
+        return playersByOrder;
+    }
+
     public int checkXmlFile(String path)
     {
+        int res = -1;
         XFU.setFilePath(path);
-        return XFU.checkXmlFileValidation(gameBoard);
+        synchronized (this)
+        {
+            res = XFU.checkXmlFileValidation(gameBoard);
+        }
+        return res;
+
     }
 
     public void setDesc(GameDescriptor desc) {
@@ -40,28 +51,34 @@ public class GameManager {
     public boolean buildPlayersFromFile() {
         boolean res = true;
         playersInMap = new HashMap<>();
+        playersInMap.clear();
         playersByOrder = new ArrayList<>();
+        playersByOrder.clear();
+
+        System.out.println("num of players: " + desc.getPlayers().getPlayer().size());
         for (GameLogic.generatedClasses.Player player : desc.getPlayers().getPlayer()) {
+            System.out.println(Thread.currentThread().getName());
             Integer playerId = Integer.valueOf(player.getId());
             if (playersInMap.containsKey(playerId)) {
-                res = false;
                 playersInMap.clear();
                 playersByOrder.clear();
+                res = false;
                 break;
-            }
-            else {
-                GameLogic.Player newPlayer= new GameLogic.Player();
+            } else {
+                GameLogic.Player newPlayer = new GameLogic.Player();
                 newPlayer.setId((int) player.getId());
                 newPlayer.setName(player.getName());
                 newPlayer.setPlayerType(player.getType());
                 playersInMap.put(newPlayer.getId(), newPlayer);
                 playersByOrder.add(newPlayer);
+                System.out.println("playersInMap size is: " + playersInMap.size());
+                System.out.println("playersByOrder size is: " + playersByOrder.size());
             }
         }
         return res;
     }
 
-    public int numOfPlayers(){
+    public int getNumOfPlayers(){
         return playersInMap.size();
     }
 

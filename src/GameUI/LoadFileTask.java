@@ -8,16 +8,23 @@ public class LoadFileTask extends Task<Integer> {
     GameManager gameManager;
     String path;
 
-    public LoadFileTask(GameManager game,String pathToCheck)
-    {
+    public LoadFileTask(GameManager game, String pathToCheck) {
         gameManager = game;
         path = pathToCheck;
     }
 
     @Override
     protected Integer call() throws Exception {
-        int res = gameManager.checkXmlFile(path);
-        sleepForAWhile(3500);
+        int res = -1;
+        Object lock1 = new Object();
+        synchronized (lock1) {
+            if(Thread.currentThread().getName().equals("loaderThread")) {
+                System.out.print(Thread.currentThread().getName());
+                res = gameManager.checkXmlFile(path);
+                sleepForAWhile(3500);
+                System.out.print(res);
+            }
+        }
         return res;
     }
 

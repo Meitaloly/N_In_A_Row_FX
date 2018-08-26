@@ -26,7 +26,7 @@ public class XmlFileUtils {
     {
         path = newPath;
     }
-    public int checkXmlFileValidation(GameBoard gameBoard)
+    public synchronized int checkXmlFileValidation(GameBoard gameBoard)
     {
         int validationNumber = -1;
 
@@ -55,6 +55,7 @@ public class XmlFileUtils {
                 } else if (!checkValidNumOfPlayers()) {
                     validationNumber = 6; // num of players not in range
                 } else if (!checkValidPlayersId()) {
+//                    System.out.print("ERROR FILE : "+Thread.currentThread().getName());
                     validationNumber = 7; // 2 player are with the same id
                 }
             }
