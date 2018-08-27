@@ -13,8 +13,8 @@ public class GameBoard {
 
     public void setGameBoard(long i_rows, long i_cols, long i_target)
     {
-        rows = i_rows+1;
-        cols = i_cols+1;
+        rows = i_rows;
+        cols = i_cols;
         target = i_target;
         numOfFreePlaces = (int)(rows-1) * (int)(cols-1);
         board = new int[Math.toIntExact(rows)][Math.toIntExact(cols)];

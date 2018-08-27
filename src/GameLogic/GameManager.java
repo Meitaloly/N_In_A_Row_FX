@@ -3,10 +3,7 @@ package GameLogic;
 import GameLogic.generatedClasses.GameDescriptor;
 import GameLogic.generatedClasses.Player;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GameManager {
 
@@ -15,6 +12,14 @@ public class GameManager {
     private GameDescriptor desc;
     private Map<Integer, GameLogic.Player> playersInMap;
     private ArrayList<GameLogic.Player> playersByOrder;
+    private String variant;
+    private boolean activeGame = false;
+    private int turnIndex = 0;
+    private GameTimer gameTimer;
+    private Timer timer;
+    private GameHistory history;
+//    private boolean savedGamedLoaded = false;
+//    private boolean loadedBoard = false;
 
     public GameManager()
     {
@@ -23,9 +28,28 @@ public class GameManager {
         gameBoard = new GameBoard();
     }
 
+    public void startTimer()
+    {
+        gameTimer = new GameTimer();
+        timer = new Timer();
+    }
+
+    public String getCurrTime()
+    {
+        return gameTimer.getTime();
+    }
+
+    public void setActiveGame(boolean activeGame) {
+        this.activeGame = activeGame;
+    }
+
     public ArrayList<GameLogic.Player> getPlayersByOrder()
     {
         return playersByOrder;
+    }
+
+    public String getVariant() {
+        return variant;
     }
 
     public int checkXmlFile(String path)
@@ -46,6 +70,10 @@ public class GameManager {
 
     public GameDescriptor getDesc() {
         return desc;
+    }
+
+    public GameBoard getGameBoard() {
+        return gameBoard;
     }
 
     public boolean buildPlayersFromFile() {
@@ -74,6 +102,10 @@ public class GameManager {
                 System.out.println("playersInMap size is: " + playersInMap.size());
                 System.out.println("playersByOrder size is: " + playersByOrder.size());
             }
+        }
+        if(res)
+        {
+          variant = desc.getGame().getVariant();
         }
         return res;
     }

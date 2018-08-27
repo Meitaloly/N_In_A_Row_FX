@@ -117,13 +117,13 @@ public class MainController {
             GameController gameController = loader.getController();
             gameController.setPrimaryStage(gameStage);
             gameController.setGameManager(gameManager);
-            Scene scene = new Scene(root, 800, 500);
+            Scene scene = new Scene(root, 900, 600);
             gameStage.setScene(scene);
 
             primaryStage.hide();
             //
             gameStage.show();
-            gameController.showPlayersToScreen();
+            gameController.startGame();
 
         } catch (IOException e) {
             e.printStackTrace();

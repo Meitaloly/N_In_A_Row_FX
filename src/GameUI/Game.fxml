@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.BorderPane?>
@@ -7,21 +8,56 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="694.0" prefWidth="970.0" styleClass="gameWindow" stylesheets="@../resoures/CssStyleFiles/Game.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GameUI.GameController">
+<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="559.0" prefWidth="753.0" styleClass="gameWindow" stylesheets="@../resoures/CssStyleFiles/Game.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GameUI.GameController">
    <right>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Separator orientation="VERTICAL" prefHeight="200.0" />
             <VBox fx:id="playerListVBox" prefHeight="694.0" prefWidth="196.0">
                <children>
-                  <Label text="Players Info:">
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="29.0" prefWidth="195.0" text="Players Info:">
                      <font>
                         <Font name="Arial Black" size="20.0" />
                      </font>
                   </Label>
+                  <Separator prefHeight="16.0" prefWidth="195.0" style="-fx-border-style: black;" />
                </children>
             </VBox>
          </children>
       </HBox>
    </right>
+   <top>
+      <VBox prefHeight="64.0" prefWidth="753.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox fx:id="gameHeader" prefHeight="92.0" prefWidth="730.0">
+               <children>
+                  <Label prefHeight="91.0" prefWidth="83.0" text="Game's type:">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin></Label>
+                  <Label fx:id="variantLabel" prefHeight="91.0" prefWidth="127.0">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin></Label>
+                  <Separator orientation="VERTICAL" prefHeight="200.0" />
+                  <Label prefHeight="62.0" prefWidth="81.0" text="Game's timer:">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="timerLabel" prefHeight="63.0" prefWidth="80.0" />
+               </children>
+            </HBox>
+            <Separator prefWidth="10.0" />
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox fx:id="arrowArea" prefHeight="143.0" prefWidth="553.0" />
+            <HBox fx:id="centerArea" prefHeight="496.0" prefWidth="553.0" />
+         </children>
+      </VBox>
+   </center>
 </BorderPane>
