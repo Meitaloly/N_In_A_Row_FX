@@ -21,6 +21,17 @@ public class GameManager {
 //    private boolean savedGamedLoaded = false;
 //    private boolean loadedBoard = false;
 
+    public void incTurnIndex(){
+        turnIndex++;
+        if (playersInMap.size()<=turnIndex){
+            turnIndex = 0;
+        }
+    }
+
+    public int getTurnIndex(){
+        return turnIndex;
+    }
+
     public GameManager()
     {
         XFU = new XmlFileUtils();

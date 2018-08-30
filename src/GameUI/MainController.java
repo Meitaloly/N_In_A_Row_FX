@@ -121,7 +121,6 @@ public class MainController {
             gameStage.setScene(scene);
 
             primaryStage.hide();
-            //
             gameStage.show();
             gameController.startGame();
 

@@ -3,16 +3,18 @@ package GameLogic;
 public class Player {
     private Integer id;
     private String name;
-    private int playerColor;
+    private int playerSign;
+    private String playerColor;
     private String playerType;
     private int turnCounter = 0;
+    private boolean active = true;
 
     public Integer getId() {
         return id;
     }
 
     public int getPlayerSign() {
-        return playerColor;
+        return playerSign;
     }
 
     public String getPlayerType() {
@@ -27,7 +29,7 @@ public class Player {
         this.name = name;
     }
 
-    public void setPlayerColor(int playerColor) {
+    public void setPlayerColor(String playerColor) {
         this.playerColor = playerColor;
     }
 
@@ -59,5 +61,13 @@ public class Player {
     public void restNumOfTurns()
     {
         turnCounter = 0;
+    }
+
+    public void setActive(){
+        active = true;
+    }
+
+    public boolean isAcive (){
+        return active;
     }
 }

@@ -13,3 +13,43 @@
     -fx-pref-height: 50px;
     -fx-pref-width: 50px;
 }
+
+.green{
+    -fx-background-color:#90ee90;
+    -fx-pref-height: 50px;
+    -fx-pref-width: 50px;
+}
+
+.blue{
+    -fx-background-color:#4e99e4;
+    -fx-pref-height: 50px;
+    -fx-pref-width: 50px;
+}
+
+.red{
+    -fx-background-color:#eb7a7a;
+    -fx-pref-height: 50px;
+    -fx-pref-width: 50px;
+}
+
+.yellow{
+    -fx-background-color:#eeee90;
+    -fx-pref-height: 50px;
+    -fx-pref-width: 50px;
+}
+
+
+.pink{
+    -fx-background-color:#ee90bf;
+    -fx-pref-height: 50px;
+    -fx-pref-width: 50px;
+}
+
+.azure{
+    -fx-background-color:#90eeee;
+    -fx-pref-height: 50px;
+    -fx-pref-width: 50px;
+}
+
+
+
