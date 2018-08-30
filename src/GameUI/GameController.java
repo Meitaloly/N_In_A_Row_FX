@@ -6,11 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.*;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Separator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -114,10 +111,19 @@ public class GameController {
                 public void handle(MouseEvent event) {
                     arrowImg.setFitHeight(50);
                     arrowImg.setFitWidth(50);
-                    nextTurnAction();
-                    insertDiskToCol(arrowImg.getId());/////////////////////////////  28.8.18
-                    currPlayer = gameManager.getPlayersByOrder().get(gameManager.getTurnIndex());
 
+                    if(checkColFull(arrowImg.getId()))
+                    {
+                        Alert alert = new Alert(Alert.AlertType.WARNING,"Col is Full! Please Choose Another One ");
+                        alert.showAndWait();
+                    }
+
+                    else {
+                        insertDiskToCol(arrowImg.getId());/////////////////////////////  28.8.18
+                        gameManager.getGameBoard().printBoard(); // for debug
+                        nextTurnAction();
+                        currPlayer = gameManager.getPlayersByOrder().get(gameManager.getTurnIndex());
+                    }
                 }
             });
 
@@ -138,6 +144,18 @@ public class GameController {
         }
     }
 
+    private boolean checkColFull(String id)
+    {
+        boolean res = false;
+        String[] idArr = id.split(" ");
+        int col = Integer.valueOf(idArr[1]);
+
+        if(gameManager.checkColFullInBoard(col))
+        {
+            res = true;
+        }
+    return res;
+    }
     private ImageView createArow(int i) {
         ImageView arrowImg = new ImageView();
         Image arrow = new Image("resoures/images/arrow.jpg");
@@ -150,9 +168,8 @@ public class GameController {
     }
 
     private void insertDiskToCol(String id) {///////////28.8.18
-
-        int size = id.length();
-        int col = id.charAt(size - 1) - '0';
+        String[] idArr = id.split(" ");
+        int col = Integer.valueOf(idArr[1]);
         int i = 0;
         boolean done = false;
 
@@ -178,6 +195,10 @@ public class GameController {
                 }
             }
             i++;
+        }
+
+        if(gameManager.getGameBoard().checkPlayerWin(col)){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, gameManager.getPlayersByOrder().get(gameManager.getTurnIndex()).getName()+" WOM!");
         }
     }
 

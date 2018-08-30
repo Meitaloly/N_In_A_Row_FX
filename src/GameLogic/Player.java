@@ -9,6 +9,10 @@ public class Player {
     private int turnCounter = 0;
     private boolean active = true;
 
+    public void setPlayerSign(int playerSign) {
+        this.playerSign = playerSign;
+    }
+
     public Integer getId() {
         return id;
     }

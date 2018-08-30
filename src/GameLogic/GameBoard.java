@@ -16,9 +16,17 @@ public class GameBoard {
         rows = i_rows;
         cols = i_cols;
         target = i_target;
-        numOfFreePlaces = (int)(rows-1) * (int)(cols-1);
+        numOfFreePlaces = (int)(rows) * (int)(cols);
         board = new int[Math.toIntExact(rows)][Math.toIntExact(cols)];
         buildTheBoard();
+    }
+
+    public boolean isColFull(int col) {
+        boolean res = false;
+        if (board[0][col-1] != -1) {
+            res = true;
+        }
+        return res;
     }
 
     public void setEmptyBoard()
@@ -28,20 +36,20 @@ public class GameBoard {
 
     public void buildTheBoard() {
 
-        for (int i = 0; i < cols; i++) {
-            board[0][i] = i;
-        }
+//        for (int i = 0; i < cols; i++) {
+//            board[0][i] = i;
+//        }
 
-        for (int i = 1; i < rows; i++) {
-            Arrays.fill(board[i], 0);
-            board[i][0] = i;
+        for (int i = 0; i < rows; i++) {
+            Arrays.fill(board[i], -1);//            board[i][0] = i;
+
         }
     }
 
     public void resetBoard(){
-        for (int i = 1; i < rows; i++) {
-            Arrays.fill(board[i], 0);
-            board[i][0] = i;
+        for (int i = 0; i < rows; i++) {
+            Arrays.fill(board[i], -1);
+            //board[i][0] = i;
         }
     }
     public void setTarget(long target) {
@@ -89,9 +97,9 @@ public class GameBoard {
 
     public void setSignOnBoard(int columToPutIn , Player player)
     {
-        for(int i = (int)rows -1; i>0;i--)
+        for(int i = (int)rows-1; i>=0;i--)
         {
-            if(board[i][columToPutIn] == 0)
+            if(board[i][columToPutIn] == -1)
             {
                 board[i][columToPutIn] = player.getPlayerSign();
                 numOfFreePlaces--;
@@ -101,6 +109,19 @@ public class GameBoard {
         }
     }
 
+    public void printBoard()
+    {
+        System.out.println("curr game board:");
+        for(int i=0; i<rows ; i++)
+        {
+            for(int j=0; j<cols; j++)
+            {
+                System.out.print(board[i][j]);
+                System.out.print(" ");
+            }
+            System.out.println();
+        }
+    }
     public int getNumOfFreePlaces() {
         return numOfFreePlaces;
     }
@@ -108,7 +129,7 @@ public class GameBoard {
     public boolean checkIfAvaliable(int col)
     {
         boolean res= false;
-        if(board[1][col] == 0)
+        if(board[1][col] == -1)
         {
             res = true;
         }
@@ -119,10 +140,10 @@ public class GameBoard {
     {
         boolean res = false;
         int i = 1 ;
-        while (board[i][col] == 0){
+        while (board[i][col-1] == -1){
             i++;
         }
-        res = isDiagonal(i,col) || isHorizontal(i,col) || isvertical(i,col);
+        res = isDiagonal(i,col-1) || isHorizontal(i,col-1) || isvertical(i,col-1);
         // check if won
         return res;
     }

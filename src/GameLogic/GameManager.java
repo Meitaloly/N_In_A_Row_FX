@@ -39,6 +39,12 @@ public class GameManager {
         gameBoard = new GameBoard();
     }
 
+
+    public void checkWinner(int col)
+    {
+        gameBoard.checkPlayerWin(col);
+    }
+
     public void startTimer()
     {
         gameTimer = new GameTimer();
@@ -114,18 +120,24 @@ public class GameManager {
                 System.out.println("playersByOrder size is: " + playersByOrder.size());
             }
         }
-        setColorosToPlayers();
         if(res)
         {
           variant = desc.getGame().getVariant();
+          setColorosToPlayers();
         }
         return res;
     }
 
+
+    public boolean checkColFullInBoard(int col)
+    {
+        return gameBoard.isColFull(col);
+    }
     public void setColorosToPlayers(){
         int size = playersInMap.size();
         for(int i = 0; i<size;i++){
             playersByOrder.get(i).setPlayerColor(setDickColor(i));
+            playersByOrder.get(i).setPlayerSign(i);
         }
     }
 
