@@ -34,16 +34,25 @@
                   <Label prefHeight="62.0" prefWidth="99.0" text="Game's type:">
                      <HBox.margin>
                         <Insets left="10.0" />
-                     </HBox.margin></Label>
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold Italic" size="15.0" />
+                     </font></Label>
                   <Label fx:id="variantLabel" prefHeight="91.0" prefWidth="127.0">
                      <HBox.margin>
                         <Insets right="5.0" />
-                     </HBox.margin></Label>
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold Italic" size="15.0" />
+                     </font></Label>
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <Label prefHeight="62.0" prefWidth="105.0" text="Game's timer:">
+                  <Label prefHeight="62.0" prefWidth="121.0" text="Game's timer:">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
+                     <font>
+                        <Font name="System Bold Italic" size="15.0" />
+                     </font>
                   </Label>
                   <Label fx:id="timerLabel" prefHeight="63.0" prefWidth="80.0" />
                </children>
@@ -62,7 +71,7 @@
                         <Insets left="20.0" />
                      </HBox.margin>
                      <font>
-                        <Font name="System Bold" size="20.0" />
+                        <Font name="System Bold Italic" size="20.0" />
                      </font>
                   </Label>
                </children>
