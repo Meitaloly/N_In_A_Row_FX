@@ -32,6 +32,9 @@ public class Player {
     public void setPlayerColor(String playerColor) {
         this.playerColor = playerColor;
     }
+    public String getPlayerColor(){
+        return playerColor;
+    }
 
     public void setPlayerType(String playerType) {
         this.playerType = playerType;

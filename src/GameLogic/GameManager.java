@@ -114,11 +114,42 @@ public class GameManager {
                 System.out.println("playersByOrder size is: " + playersByOrder.size());
             }
         }
+        setColorosToPlayers();
         if(res)
         {
           variant = desc.getGame().getVariant();
         }
         return res;
+    }
+
+    public void setColorosToPlayers(){
+        int size = playersInMap.size();
+        for(int i = 0; i<size;i++){
+            playersByOrder.get(i).setPlayerColor(setDickColor(i));
+        }
+    }
+
+    private String setDickColor(int index){
+        switch(index){
+            case 0:
+                return  ("green");
+
+            case 1:
+                return  "blue";
+
+            case 2:
+                return  "red";
+
+            case 3:
+                return  "yellow";
+
+            case 4:
+                return "pink";
+
+            case 5:
+                return  "azure";
+        }
+        return "noColor";
     }
 
     public int getNumOfPlayers(){

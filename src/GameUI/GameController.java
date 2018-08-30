@@ -27,15 +27,24 @@ import java.nio.ByteOrder;
 
 public class GameController {
 
-    @FXML VBox playerListVBox;
-    @FXML HBox gameHeader;
-    @FXML Label variantLabel;
-    @FXML BorderPane mainBorderPane;
-    @FXML HBox centerArea;
-    @FXML HBox arrowArea;
-    @FXML HBox downArea;
-    @FXML Label timerLabel;
-    @FXML Label playerTurnLabel;
+    @FXML
+    VBox playerListVBox;
+    @FXML
+    HBox gameHeader;
+    @FXML
+    Label variantLabel;
+    @FXML
+    BorderPane mainBorderPane;
+    @FXML
+    HBox centerArea;
+    @FXML
+    HBox arrowArea;
+    @FXML
+    HBox downArea;
+    @FXML
+    Label timerLabel;
+    @FXML
+    Label playerTurnLabel;
 
 
     private Stage primaryStage;
@@ -53,8 +62,7 @@ public class GameController {
         this.primaryStage = primaryStage;
     }
 
-    public void startGame()
-    {
+    public void startGame() {
 //        gameManager.startTimer();
 //        gameManager.setActiveGame(true);
 //        showTimer = new Timer(gameManager,this);
@@ -71,8 +79,7 @@ public class GameController {
         playerTurnLabel.setText("Current player name: " + PlayerName);
     }
 
-    public void setTimer(String currTime)
-    {
+    public void setTimer(String currTime) {
         timerLabel.setText(currTime);
     }
 
@@ -88,9 +95,9 @@ public class GameController {
             arrowImg.getStyleClass().add("arrowImg");
             arrowImg.setFitHeight(50);
             arrowImg.setFitWidth(50);*/
-           // Button arowBut = new Button();
+            // Button arowBut = new Button();
             //arowBut.setGraphic(arrowImg);
-           // arowBut.setDisable(true);
+            // arowBut.setDisable(true);
 
 
             arrowImg.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
@@ -118,12 +125,11 @@ public class GameController {
             downArea.getChildren().add(downArow);
 
             VBox newCol = new VBox();
-            newCol.setId("Col "+(i+1));
-            for(int j=0; j<gameManager.getGameBoard().getRows();j++)
-            {
+            newCol.setId("Col " + (i + 1));
+            for (int j = 0; j < gameManager.getGameBoard().getRows(); j++) {
                 Button newBtn = new Button();
                 newBtn.setLineSpacing(2);
-                newBtn.setId((j+1)+ "X" + (i+1));
+                newBtn.setId((j + 1) + "X" + (i + 1));
                 newBtn.getStyleClass().add("boardBtn");
                 newBtn.setDisable(true);
                 newCol.getChildren().add(newBtn);
@@ -132,11 +138,11 @@ public class GameController {
         }
     }
 
-    private ImageView createArow(int i){
+    private ImageView createArow(int i) {
         ImageView arrowImg = new ImageView();
         Image arrow = new Image("resoures/images/arrow.jpg");
         arrowImg.setImage(arrow);
-        arrowImg.setId("Arrow "+(i+1));
+        arrowImg.setId("Arrow " + (i + 1));
         arrowImg.getStyleClass().add("arrowImg");
         arrowImg.setFitHeight(50);
         arrowImg.setFitWidth(50);
@@ -147,28 +153,27 @@ public class GameController {
 
         int size = id.length();
         int col = id.charAt(size - 1) - '0';
-        int i =0;
-        boolean done  = false;
+        int i = 0;
+        boolean done = false;
 
-        VBox v = (VBox)centerArea.getChildren().get(col-1);
-        while (i< gameManager.getGameBoard().getRows()-1 && !done){
+        VBox v = (VBox) centerArea.getChildren().get(col - 1);
+        while (i < gameManager.getGameBoard().getRows() - 1 && !done) {
             if (v.getChildren().get(i).isDisable()) {
-                if ((i+1) == gameManager.getGameBoard().getRows()-1 && v.getChildren().get(i+1).isDisable() ){
-                    Button b1 = (Button)v.getChildren().get(i+1);
+                if ((i + 1) == gameManager.getGameBoard().getRows() - 1 && v.getChildren().get(i + 1).isDisable()) {
+                    Button b1 = (Button) v.getChildren().get(i + 1);
                     b1.getStyleClass().removeAll("boardBtn");
                     b1.setShape(new Circle(30));
                     b1.getStyleClass().add(dickColor);
                     b1.setDisable(false);
-                    insertDiskToBoard(col-1);
+                    insertDiskToBoard(col - 1);
                     done = true;
-                }
-                else if (!(v.getChildren().get(i+1).isDisable())){
-                    Button b1 = (Button)v.getChildren().get(i);
+                } else if (!(v.getChildren().get(i + 1).isDisable())) {
+                    Button b1 = (Button) v.getChildren().get(i);
                     b1.getStyleClass().removeAll("boardBtn");
                     b1.setShape(new Circle(15));
                     b1.getStyleClass().add(dickColor);
                     b1.setDisable(false);
-                    insertDiskToBoard(col-1);
+                    insertDiskToBoard(col - 1);
                     done = true;
                 }
             }
@@ -176,9 +181,10 @@ public class GameController {
         }
     }
 
-    private void insertDiskToBoard(int col){
-        gameManager.getGameBoard().setSignOnBoard(col,currPlayer);
+    private void insertDiskToBoard(int col) {
+        gameManager.getGameBoard().setSignOnBoard(col, currPlayer);
     }
+
     private void showPlayersToScreen() {
         Integer counter = 1;
 
@@ -201,6 +207,7 @@ public class GameController {
         Integer ID = player.getId();
         String type = player.getPlayerType();
         Integer turns = player.getTurnCounter();
+        String Color = player.getPlayerColor();
 
         Label playerName = new Label();
         playerName.setText("Name: " + name);
@@ -211,21 +218,24 @@ public class GameController {
         newVBox.getChildren().add(PlayerId);
 
         Label PlayerType = new Label();
-        PlayerType.setText("Type: "+type);
+        PlayerType.setText("Type: " + type);
         newVBox.getChildren().add(PlayerType);
 
         //TODO: add binding to turns
         Label PlayerNumOfTurns = new Label();
-        PlayerNumOfTurns.setText("Turns: " +turns.toString());
+        PlayerNumOfTurns.setText("Turns: " + turns.toString());
         newVBox.getChildren().add(PlayerNumOfTurns);
+
+        Label PlayerColor = new Label();
+        PlayerColor.setText("Color: "+ Color);
+        newVBox.getChildren().add(PlayerColor);
 
         Separator newSep = new Separator();
         newSep.getStyleClass().add("sepPlayers");
         newVBox.getChildren().add(newSep);
     }
 
-    private void setGameType()
-    {
+    private void setGameType() {
         variantLabel.setText(gameManager.getVariant());
     }
 
@@ -240,38 +250,15 @@ public class GameController {
         }
     }
 
-    public void  nextTurnAction(){
+    public void nextTurnAction() {
         int index = gameManager.getTurnIndex();
-        setDickColor(index);
+        dickColor = gameManager.getPlayersByOrder().get(gameManager.getTurnIndex()).getPlayerColor();
+        //setDickColor(index);
         gameManager.incTurnIndex();
-        while (!gameManager.getPlayersByOrder().get(gameManager.getTurnIndex()).isAcive()){
+        while (!gameManager.getPlayersByOrder().get(gameManager.getTurnIndex()).isAcive()) {
             gameManager.incTurnIndex();
         }
         playerTurnLabel.setText("Current player name: " + gameManager.getPlayersByOrder().get(gameManager.getTurnIndex()).getName());
     }
-
-    private void setDickColor(int index){
-        switch(index){
-            case 0:
-                dickColor = "green";
-                break;
-            case 1:
-                dickColor = "blue";
-                break;
-            case 2:
-                dickColor = "red";
-                break;
-            case 3:
-                dickColor = "yellow";
-                break;
-            case 4:
-                dickColor = "pink";
-                break;
-            case 5:
-                dickColor = "azure";
-                break;
-        }
-    }
-
 
 }
