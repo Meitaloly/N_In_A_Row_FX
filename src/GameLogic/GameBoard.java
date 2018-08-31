@@ -1,6 +1,7 @@
 package GameLogic;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class GameBoard {
     long rows;
@@ -170,13 +171,9 @@ public class GameBoard {
         if(gameType.toUpperCase().equals("CIRCULAR")) {
             res = isDiagonal(i, col - 1) || isHorizontalCircular(i, col - 1) || isVerticalCircular(i, col - 1);
         }
-        else if(gameType.toUpperCase().equals("POPOUT"))
-        {
-            //res = isDiagonal(i, col - 1) || isHorizontalPopOut(i, col - 1) || isVerticalPopOut(i, col - 1);
-        }
         else {
-            res = isDiagonal(i, col - 1) || isHorizontal(i, col - 1, gameType) || isvertical(i, col - 1, gameType);
-        }// check if won
+            res = isDiagonal(i, col - 1) || isHorizontal(i, col - 1) || isVertical(i, col - 1);
+        }
         return res;
     }
 
@@ -321,14 +318,11 @@ public class GameBoard {
 
 
 
-    public boolean isHorizontal(int row,int col, String gameType){
+    public boolean isHorizontal(int row,int col){
         boolean res = false;
         long  len = target-1;
         int mySign = board[row][col];
         int newCol = col + 1;
-        if( gameType.toUpperCase().equals("CIRCULAR")) {
-            newCol = newCol % (int)this.cols;
-        }
 
         while (newCol <= cols-1 && !res && board[row][newCol] == mySign  ){
             len--;
@@ -356,7 +350,7 @@ public class GameBoard {
     }
 
 
-    public boolean isvertical(int row,int col, String gameType){
+    public boolean isVertical(int row,int col){
         boolean res = false;
         long  len = target-1;
         int mySign = board[row][col];
@@ -401,6 +395,24 @@ public class GameBoard {
         }
         board[i][col] = 0;
         numOfFreePlaces --;
+        return res;
+    }
+
+
+    public boolean checkAnyWinner(int col, List<Integer> winnersList)
+    {
+        boolean res = false;
+
+        for(int i = (int)this.rows-1; i>=0; i--)
+        {
+            if(board[i][col]!=-1) {
+                if (isDiagonal(i, col) || isHorizontal(i,col) || isVertical(i,col)) {
+                    winnersList.add(board[i][col]);
+                    res= true;
+                }
+            }
+        }
+
         return res;
     }
 }

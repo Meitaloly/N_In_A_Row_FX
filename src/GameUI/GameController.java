@@ -23,6 +23,8 @@ import javafx.stage.Stage;
 import org.omg.PortableInterceptor.INACTIVE;
 
 import java.nio.ByteOrder;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class GameController {
@@ -161,6 +163,16 @@ public class GameController {
                         currPlayer = gameManager.getPlayersByOrder().get(gameManager.getTurnIndex());
                         gameManager.getGameBoard().printBoard(); // for debug
                         removeDiskFromCol(col);
+                        List<String> winnersList = new ArrayList<>();
+                        List<Integer> signsOfWinners = new ArrayList<>();
+
+                        if(gameManager.getGameBoard().checkAnyWinner(col, signsOfWinners))
+                        {
+                            converIntSignToName(winnersList, signsOfWinners);
+                            String names = getNamesFromList(winnersList);
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION, names +" WON!");
+                            alert.showAndWait();
+                        }
                     }
                     else
                     {
@@ -170,6 +182,47 @@ public class GameController {
                 }
             }
         });
+    }
+
+    private void converIntSignToName(List<String> strList, List<Integer> intList)
+    {
+        for(Integer num : intList)
+        {
+            strList.add(convertSignToPlayer(num));
+        }
+    }
+
+    private String convertSignToPlayer(int num)
+    {
+        String res = "";
+
+        for(Player player : gameManager.getPlayersByOrder())
+        {
+            if(player.getPlayerSign() == num)
+            {
+                res = player.getName();
+                break;
+            }
+        }
+
+        return res;
+
+    }
+
+    private String getNamesFromList(List<String> winnersList){
+        String res = "";
+        int size = winnersList.size();
+
+        for(String str : winnersList)
+        {
+            res += str;
+            size--;
+            if(size!=0)
+            {
+                res+=", ";
+            }
+        }
+        return res;
     }
 
     private void removeDiskFromCol(int col)
