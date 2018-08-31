@@ -40,9 +40,9 @@ public class GameManager {
     }
 
 
-    public void checkWinner(int col)
+    public void checkWinner(int col, String gameType)
     {
-        gameBoard.checkPlayerWin(col);
+        gameBoard.checkPlayerWin(col, gameType);
     }
 
     public void startTimer()
@@ -93,6 +93,11 @@ public class GameManager {
         return gameBoard;
     }
 
+    public void incCurrPlayerTurn()
+    {
+        playersByOrder.get(turnIndex).incTurnCounter();
+    }
+
     public boolean buildPlayersFromFile() {
         boolean res = true;
         playersInMap = new HashMap<>();
@@ -100,9 +105,7 @@ public class GameManager {
         playersByOrder = new ArrayList<>();
         playersByOrder.clear();
 
-        System.out.println("num of players: " + desc.getPlayers().getPlayer().size());
         for (GameLogic.generatedClasses.Player player : desc.getPlayers().getPlayer()) {
-            System.out.println(Thread.currentThread().getName());
             Integer playerId = Integer.valueOf(player.getId());
             if (playersInMap.containsKey(playerId)) {
                 playersInMap.clear();
@@ -116,8 +119,6 @@ public class GameManager {
                 newPlayer.setPlayerType(player.getType());
                 playersInMap.put(newPlayer.getId(), newPlayer);
                 playersByOrder.add(newPlayer);
-                System.out.println("playersInMap size is: " + playersInMap.size());
-                System.out.println("playersByOrder size is: " + playersByOrder.size());
             }
         }
         if(res)

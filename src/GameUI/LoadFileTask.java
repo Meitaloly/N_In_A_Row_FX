@@ -19,10 +19,8 @@ public class LoadFileTask extends Task<Integer> {
         Object lock1 = new Object();
         synchronized (lock1) {
             if(Thread.currentThread().getName().equals("loaderThread")) {
-                System.out.print(Thread.currentThread().getName());
                 res = gameManager.checkXmlFile(path);
                 sleepForAWhile(1800);
-                System.out.print(res);
             }
         }
         return res;

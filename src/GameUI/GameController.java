@@ -2,6 +2,9 @@ package GameUI;
 
 import GameLogic.GameManager;
 import GameLogic.Player;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -42,7 +45,8 @@ public class GameController {
     Label timerLabel;
     @FXML
     Label playerTurnLabel;
-
+    @FXML
+    Label targetLabel;
 
     private Stage primaryStage;
     private GameManager gameManager;
@@ -69,9 +73,10 @@ public class GameController {
         showPlayersToScreen();
         setGameType();
         showBoard();
-
+        targetLabel.setText(String.valueOf(gameManager.getGameBoard().getTarget()));
         int index = gameManager.getTurnIndex();
         currPlayer = gameManager.getPlayersByOrder().get(index);
+        dickColor = currPlayer.getPlayerColor();
         String PlayerName = currPlayer.getName();
         playerTurnLabel.setText("Current player name: " + PlayerName);
     }
@@ -84,18 +89,6 @@ public class GameController {
 
         for (int i = 0; i < gameManager.getGameBoard().getCols(); i++) {
             ImageView arrowImg = createArow(i);
-            ImageView downArow = createArow(i);
-           /* ImageView arrowImg = new ImageView();
-            Image arrow = new Image("resoures/images/arrow.jpg");
-            arrowImg.setImage(arrow);
-            arrowImg.setId("Arrow "+(i+1));
-            arrowImg.getStyleClass().add("arrowImg");
-            arrowImg.setFitHeight(50);
-            arrowImg.setFitWidth(50);*/
-            // Button arowBut = new Button();
-            //arowBut.setGraphic(arrowImg);
-            // arowBut.setDisable(true);
-
 
             arrowImg.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
 
@@ -128,12 +121,13 @@ public class GameController {
             });
 
             arrowArea.getChildren().add(arrowImg);
-            downArea.getChildren().add(downArow);
+            //downArea.getChildren().add(downArow);
 
             VBox newCol = new VBox();
             newCol.setId("Col " + (i + 1));
             for (int j = 0; j < gameManager.getGameBoard().getRows(); j++) {
                 Button newBtn = new Button();
+                newBtn.setShape(new Circle(30));
                 newBtn.setLineSpacing(2);
                 newBtn.setId((j + 1) + "X" + (i + 1));
                 newBtn.getStyleClass().add("boardBtn");
@@ -197,8 +191,9 @@ public class GameController {
             i++;
         }
 
-        if(gameManager.getGameBoard().checkPlayerWin(col)){
+        if(gameManager.getGameBoard().checkPlayerWin(col, variantLabel.getText())){
             Alert alert = new Alert(Alert.AlertType.INFORMATION, gameManager.getPlayersByOrder().get(gameManager.getTurnIndex()).getName()+" WOM!");
+            alert.showAndWait();
         }
     }
 
@@ -218,12 +213,12 @@ public class GameController {
             playerTitle.setText("Player: " + (counter++));
             newVBox.getChildren().add(playerTitle);
 
-            addPlayerDataToVBox(player, newVBox);
+            addPlayerDataToVBox(player, newVBox,counter);
             playerListVBox.getChildren().add(newVBox);
         }
     }
 
-    private void addPlayerDataToVBox(Player player, VBox newVBox) {
+    private void addPlayerDataToVBox(Player player, VBox newVBox ,Integer index) {
         String name = player.getName();
         Integer ID = player.getId();
         String type = player.getPlayerType();
@@ -243,9 +238,15 @@ public class GameController {
         newVBox.getChildren().add(PlayerType);
 
         //TODO: add binding to turns
+        HBox Turns = new HBox();
         Label PlayerNumOfTurns = new Label();
-        PlayerNumOfTurns.setText("Turns: " + turns.toString());
-        newVBox.getChildren().add(PlayerNumOfTurns);
+        Label TurnsLabel = new Label();
+        TurnsLabel.setText("Turns: ");
+        PlayerNumOfTurns.setText(turns.toString());
+        Turns.getChildren().add(TurnsLabel);
+        Turns.getChildren().add(PlayerNumOfTurns);
+        //PlayerNumOfTurns.textProperty().bind(new SimpleIntegerProperty(gameManager.getPlayersByOrder().get(index).getTurnCounter()).asString());
+        newVBox.getChildren().add(Turns);
 
         Label PlayerColor = new Label();
         PlayerColor.setText("Color: "+ Color);
@@ -272,10 +273,11 @@ public class GameController {
     }
 
     public void nextTurnAction() {
-        int index = gameManager.getTurnIndex();
+        //int index = gameManager.getTurnIndex();
+        gameManager.incCurrPlayerTurn();
+        gameManager.incTurnIndex();
         dickColor = gameManager.getPlayersByOrder().get(gameManager.getTurnIndex()).getPlayerColor();
         //setDickColor(index);
-        gameManager.incTurnIndex();
         while (!gameManager.getPlayersByOrder().get(gameManager.getTurnIndex()).isAcive()) {
             gameManager.incTurnIndex();
         }
