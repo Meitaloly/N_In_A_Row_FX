@@ -2,10 +2,12 @@ package GameUI;
 
 import GameLogic.GameManager;
 import GameLogic.Player;
+import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -71,6 +73,14 @@ public class GameController {
         dickColor = currPlayer.getPlayerColor();
         String PlayerName = currPlayer.getName();
         playerTurnLabel.setText("Current player name: " + PlayerName);
+        if (currPlayer.getPlayerType().toUpperCase().equals("COMPUTER")) {
+            try {
+                RunTask();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 
@@ -110,25 +120,28 @@ public class GameController {
 
             @Override
             public void handle(MouseEvent event) {
-                arrowImg.setFitHeight(40);
-                arrowImg.setFitWidth(40);
+                if (!currPlayer.getPlayerType().toUpperCase().equals("COMPUTER")) {
+                    arrowImg.setFitHeight(40);
+                    arrowImg.setFitWidth(40);
+                }
             }
         });
 
         arrowImg.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                arrowImg.setFitHeight(50);
-                arrowImg.setFitWidth(50);
+                if (!currPlayer.getPlayerType().toUpperCase().equals("COMPUTER")) {
+                    arrowImg.setFitHeight(50);
+                    arrowImg.setFitWidth(50);
 
-                if (checkColFull(arrowImg.getId())) {
-                    Alert alert = new Alert(Alert.AlertType.WARNING, "Col is Full! Please Choose Another One ");
-                    alert.showAndWait();
-                } else {
-                    insertDiskToCol(arrowImg.getId());/////////////////////////////  28.8.18
-                    gameManager.getGameBoard().printBoard(); // for debug
-                    nextTurnAction();
-                    currPlayer = gameManager.getPlayersByOrder().get(gameManager.getTurnIndex());
+                    if (checkColFull(arrowImg.getId())) {
+                        Alert alert = new Alert(Alert.AlertType.WARNING, "Col is Full! Please Choose Another One ");
+                        alert.showAndWait();
+                    } else {
+                        insertDiskToCol(arrowImg.getId());/////////////////////////////  28.8.18
+                        gameManager.getGameBoard().printBoard(); // for debug
+                        nextTurnAction();
+                    }
                 }
             }
         });
@@ -137,47 +150,48 @@ public class GameController {
     private void addHandlersToRemoveDiskImg(ImageView removeDickImg){
         removeDickImg.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
 
-            @Override
-            public void handle(MouseEvent event) {
-                removeDickImg.setFitHeight(40);
-                removeDickImg.setFitWidth(40);
-            }
-        });
+                    @Override
+                    public void handle(MouseEvent event) {
+                        if (!currPlayer.getPlayerType().toUpperCase().equals("COMPUTER")) {
+                            removeDickImg.setFitHeight(40);
+                            removeDickImg.setFitWidth(40);
+                        }
+                    }
+                });
 
         removeDickImg.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                removeDickImg.setFitHeight(50);
-                removeDickImg.setFitWidth(50);
+                if (!currPlayer.getPlayerType().toUpperCase().equals("COMPUTER")) {
 
-                String[] idArr = removeDickImg.getId().split(" ");
-                int col = Integer.valueOf(idArr[1])-1;
+                    removeDickImg.setFitHeight(50);
+                    removeDickImg.setFitWidth(50);
 
-                if (checkColEmpty(col)) {
-                    Alert alert = new Alert(Alert.AlertType.WARNING, "Can't remove disk from empty col!");
-                    alert.showAndWait();
-                } else {
-                    if(gameManager.getGameBoard().checkSignAndRemove(col,currPlayer.getPlayerSign()))
-                    {
-                        nextTurnAction();
-                        currPlayer = gameManager.getPlayersByOrder().get(gameManager.getTurnIndex());
-                        gameManager.getGameBoard().printBoard(); // for debug
-                        removeDiskFromCol(col);
-                        List<String> winnersList = new ArrayList<>();
-                        List<Integer> signsOfWinners = new ArrayList<>();
+                    String[] idArr = removeDickImg.getId().split(" ");
+                    int col = Integer.valueOf(idArr[1]) - 1;
 
-                        if(gameManager.getGameBoard().checkAnyWinner(col, signsOfWinners))
-                        {
-                            converIntSignToName(winnersList, signsOfWinners);
-                            String names = getNamesFromList(winnersList);
-                            Alert alert = new Alert(Alert.AlertType.INFORMATION, names +" WON!");
+                    if (checkColEmpty(col)) {
+                        Alert alert = new Alert(Alert.AlertType.WARNING, "Can't remove disk from empty col!");
+                        alert.showAndWait();
+                    } else {
+                        if (gameManager.getGameBoard().checkSignAndRemove(col, currPlayer.getPlayerSign())) {
+                            nextTurnAction();
+                            currPlayer = gameManager.getPlayersByOrder().get(gameManager.getTurnIndex());
+                            gameManager.getGameBoard().printBoard(); // for debug
+                            removeDiskFromCol(col);
+                            List<String> winnersList = new ArrayList<>();
+                            List<Integer> signsOfWinners = new ArrayList<>();
+
+                            if (gameManager.getGameBoard().checkAnyWinner(col, signsOfWinners)) {
+                                converIntSignToName(winnersList, signsOfWinners);
+                                String names = getNamesFromList(winnersList);
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION, names + " WON!");
+                                alert.showAndWait();
+                            }
+                        } else {
+                            Alert alert = new Alert(Alert.AlertType.WARNING, "Can't remove dick! Not your dick!");
                             alert.showAndWait();
                         }
-                    }
-                    else
-                    {
-                        Alert alert = new Alert(Alert.AlertType.WARNING, "Can't remove dick! Not your dick!");
-                        alert.showAndWait();
                     }
                 }
             }
@@ -354,8 +368,8 @@ public class GameController {
             i++;
         }
 
-        if(gameManager.getGameBoard().checkPlayerWin(col, variantLabel.getText())){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, gameManager.getPlayersByOrder().get(gameManager.getTurnIndex()).getName()+" WOM!");
+        if(gameManager.getGameBoard().checkPlayerWin(col, variantLabel.getText(),currPlayer.getPlayerType())){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, currPlayer.getName()+" WOM!");
             alert.showAndWait();
         }
     }
@@ -439,12 +453,42 @@ public class GameController {
         //int index = gameManager.getTurnIndex();
         gameManager.incCurrPlayerTurn();
         gameManager.incTurnIndex();
-        dickColor = gameManager.getPlayersByOrder().get(gameManager.getTurnIndex()).getPlayerColor();
-        //setDickColor(index);
-        while (!gameManager.getPlayersByOrder().get(gameManager.getTurnIndex()).isAcive()) {
+        currPlayer = gameManager.getPlayersByOrder().get(gameManager.getTurnIndex());
+        dickColor = currPlayer.getPlayerColor();
+        while (!currPlayer.isAcive()) {
             gameManager.incTurnIndex();
         }
-        playerTurnLabel.setText("Current player name: " + gameManager.getPlayersByOrder().get(gameManager.getTurnIndex()).getName());
+        playerTurnLabel.setText("Current player name: " + currPlayer.getName());
+        if(currPlayer.getPlayerType().toUpperCase().equals("COMPUTER"))
+        {
+            try {
+                RunTask();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
+    public void RunTask() throws InterruptedException {
+        Task<Integer> currentRunningTask = new ComputerPlayTask(gameManager);
+        currentRunningTask.setOnSucceeded(e -> Platform.runLater( () ->
+                {
+                    computerPlay(currentRunningTask.getValue());
+                }
+                )
+        );
+
+        Thread ComputerPlaysThread = new Thread(currentRunningTask);
+        ComputerPlaysThread.setName("loaderThread");
+        ComputerPlaysThread.start();
+    }
+
+    public void computerPlay(int col)
+    {
+        System.out.println("computer choose: "+col);
+        String id = "computer "+(col+1);
+        insertDiskToCol(id);/////////////////////////////  28.8.18
+        gameManager.getGameBoard().printBoard(); // for debug
+        nextTurnAction();
+    }
 }

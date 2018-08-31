@@ -161,17 +161,23 @@ public class GameBoard {
         return res;
     }
 
-    public boolean checkPlayerWin(int col, String gameType)
+    public boolean checkPlayerWin(int col, String gameType, String playerType)
     {
+//        if(playerType.toUpperCase().equals("COMPUTER"))
+//        {
+//            col--;
+//        }
         boolean res = false;
         int i = 0 ;
+
         while (board[i][col-1] == -1){
             i++;
         }
         if(gameType.toUpperCase().equals("CIRCULAR")) {
             res = isDiagonal(i, col - 1) || isHorizontalCircular(i, col - 1) || isVerticalCircular(i, col - 1);
         }
-        else {
+        else
+        {
             res = isDiagonal(i, col - 1) || isHorizontal(i, col - 1) || isVertical(i, col - 1);
         }
         return res;
