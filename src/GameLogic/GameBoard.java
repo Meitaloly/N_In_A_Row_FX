@@ -29,6 +29,30 @@ public class GameBoard {
         return res;
     }
 
+    public boolean checkColEmpty(int col)
+    {
+        boolean res = false;
+        if(board[(int)this.rows-1][col] == -1 )
+        {
+            res = true;
+        }
+        return res;
+    }
+
+    public boolean checkSignAndRemove(int col, int sign)
+    {
+        boolean res = false;
+        if(board[(int)this.rows-1][col] == sign )
+        {
+            res = true;
+            for(int i = (int)this.rows-1; i>0 ; i--)
+            {
+                board[i][col] = board[i-1][col];
+            }
+            board[0][col] = -1;
+        }
+        return res;
+    }
     public void setEmptyBoard()
     {
         board = new int[Math.toIntExact(rows)][Math.toIntExact(cols)];

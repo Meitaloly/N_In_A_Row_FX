@@ -96,7 +96,12 @@
                </children>
             </HBox>
             <HBox fx:id="arrowArea" prefHeight="70.0" prefWidth="553.0" />
-            <HBox fx:id="centerArea" prefHeight="307.0" prefWidth="553.0" />
+            <HBox fx:id="centerArea" prefHeight="353.0" prefWidth="629.0" />
+            <HBox fx:id="downArea" prefHeight="163.0" prefWidth="629.0">
+               <opaqueInsets>
+                  <Insets top="-20.0" />
+               </opaqueInsets>
+            </HBox>
          </children>
       </VBox>
    </center>
