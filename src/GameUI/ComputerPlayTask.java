@@ -1,9 +1,10 @@
 package GameUI;
 
+import GameLogic.ComputerChoice;
 import GameLogic.GameManager;
 import javafx.concurrent.Task;
 
-public class ComputerPlayTask extends Task<Integer> {
+public class ComputerPlayTask extends Task<ComputerChoice> {
 
     GameManager gameManager;
     int ChoosenCol;
@@ -14,12 +15,10 @@ public class ComputerPlayTask extends Task<Integer> {
 
 
     @Override
-    protected Integer call() throws Exception {
-        if (Thread.currentThread().getName().equals("loaderThread")) {
-            ChoosenCol = gameManager.ComputerPlay();
+    protected ComputerChoice call() throws Exception {
+            ComputerChoice computerChoice = gameManager.ComputerPlay();
             sleepForAWhile(1500);
-        }
-        return ChoosenCol;
+            return computerChoice;
     }
 
 

@@ -1,5 +1,6 @@
 package GameUI;
 
+import GameLogic.ComputerChoice;
 import GameLogic.GameManager;
 import GameLogic.Player;
 import javafx.application.Platform;
@@ -49,11 +50,20 @@ public class GameController {
     Label playerTurnLabel;
     @FXML
     Label targetLabel;
+    @FXML
+    Button finishGameBtn;
+    @FXML
+    Button leaveGameBtn;
 
     private Stage primaryStage;
     private GameManager gameManager;
     private Player currPlayer;
     private String dickColor;
+    private Stage MenuScreen;
+
+    public void setMenuScreen(Stage menuScreen) {
+        MenuScreen = menuScreen;
+    }
 
     public void setGameManager(GameManager gameManager) {
         this.gameManager = gameManager;
@@ -74,6 +84,8 @@ public class GameController {
         String PlayerName = currPlayer.getName();
         playerTurnLabel.setText("Current player name: " + PlayerName);
         if (currPlayer.getPlayerType().toUpperCase().equals("COMPUTER")) {
+            playerTurnLabel.setText("Current player name: " + PlayerName + " (Computer Calculate next step...)");
+
             try {
                 RunTask();
             } catch (InterruptedException e) {
@@ -83,6 +95,12 @@ public class GameController {
 
     }
 
+    public void finishTheGame()
+    {
+        gameManager.resetGame();
+        primaryStage.hide();
+        MenuScreen.show();
+    }
 
     private void showBoard() {
 
@@ -179,15 +197,7 @@ public class GameController {
                             currPlayer = gameManager.getPlayersByOrder().get(gameManager.getTurnIndex());
                             gameManager.getGameBoard().printBoard(); // for debug
                             removeDiskFromCol(col);
-                            List<String> winnersList = new ArrayList<>();
-                            List<Integer> signsOfWinners = new ArrayList<>();
 
-                            if (gameManager.getGameBoard().checkAnyWinner(col, signsOfWinners)) {
-                                converIntSignToName(winnersList, signsOfWinners);
-                                String names = getNamesFromList(winnersList);
-                                Alert alert = new Alert(Alert.AlertType.INFORMATION, names + " WON!");
-                                alert.showAndWait();
-                            }
                         } else {
                             Alert alert = new Alert(Alert.AlertType.WARNING, "Can't remove dick! Not your dick!");
                             alert.showAndWait();
@@ -262,6 +272,16 @@ public class GameController {
                 newBtn.setDisable(true);
             }
             v.getChildren().add(newBtn);
+        }
+
+        List<String> winnersList = new ArrayList<>();
+        List<Integer> signsOfWinners = new ArrayList<>();
+
+        if (gameManager.getGameBoard().checkAnyWinner(col, signsOfWinners)) {
+            converIntSignToName(winnersList, signsOfWinners);
+            String names = getNamesFromList(winnersList);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, names + " WON!");
+            alert.showAndWait();
         }
     }
 
@@ -371,6 +391,22 @@ public class GameController {
         if(gameManager.getGameBoard().checkPlayerWin(col, variantLabel.getText(),currPlayer.getPlayerType())){
             Alert alert = new Alert(Alert.AlertType.INFORMATION, currPlayer.getName()+" WOM!");
             alert.showAndWait();
+            finishTheGame();
+        }
+        else
+        {
+//            if(gameManager.getGameBoard().isBoardFull()) {
+//                if (!gameManager.getVariant().toUpperCase().equals("POPOUT")) {
+//                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Board is full - game over! ");
+//                    alert.showAndWait();
+//                    finishTheGame();
+//                }
+//                else
+//                {
+//
+//                    checkPlayerCanRemove(currPlayer.getPlayerSign());
+//                }
+//            }
         }
     }
 
@@ -461,16 +497,36 @@ public class GameController {
         playerTurnLabel.setText("Current player name: " + currPlayer.getName());
         if(currPlayer.getPlayerType().toUpperCase().equals("COMPUTER"))
         {
+            playerTurnLabel.setText("Current player name: " + currPlayer.getName() + " (Computer calculate next step...)");
             try {
                 RunTask();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        else
+        {
+            if(gameManager.getGameBoard().isBoardFull()) {
+                if (!gameManager.getVariant().toUpperCase().equals("POPOUT")) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Board is full - game over! ");
+                    alert.showAndWait();
+                    finishTheGame();
+                }
+                else
+                {
+                    if(gameManager.getGameBoard().checkPlayerCanRemove(currPlayer.getPlayerSign()))
+                    {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Board is full and no disk at the bottom is yours - game over! ");
+                        alert.showAndWait();
+                        finishTheGame();
+                    }
+                }
+            }
+        }
     }
 
     public void RunTask() throws InterruptedException {
-        Task<Integer> currentRunningTask = new ComputerPlayTask(gameManager);
+        Task<ComputerChoice> currentRunningTask = new ComputerPlayTask(gameManager);
         currentRunningTask.setOnSucceeded(e -> Platform.runLater( () ->
                 {
                     computerPlay(currentRunningTask.getValue());
@@ -483,12 +539,30 @@ public class GameController {
         ComputerPlaysThread.start();
     }
 
-    public void computerPlay(int col)
+    public void computerPlay(ComputerChoice computerChoice)
     {
-        System.out.println("computer choose: "+col);
-        String id = "computer "+(col+1);
-        insertDiskToCol(id);/////////////////////////////  28.8.18
-        gameManager.getGameBoard().printBoard(); // for debug
-        nextTurnAction();
+        if(computerChoice.getSucceeded())
+        {
+            System.out.println("computer choose: " + computerChoice.getChoosenCol());
+            String id = "computer " + (computerChoice.getChoosenCol() + 1);
+
+            if(computerChoice.getPopout())
+            {
+                gameManager.getGameBoard().checkSignAndRemove(computerChoice.getChoosenCol(),currPlayer.getPlayerSign());
+                removeDiskFromCol(computerChoice.getChoosenCol());
+            }
+            else {
+
+                insertDiskToCol(id);/////////////////////////////  28.8.18
+            }
+            gameManager.getGameBoard().printBoard(); // for debug
+            nextTurnAction();
+        }
+        else
+        {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Computer Can't Play! ");
+            alert.showAndWait();
+            finishTheGame();
+        }
     }
 }

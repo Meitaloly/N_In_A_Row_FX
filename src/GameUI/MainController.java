@@ -115,6 +115,7 @@ public class MainController {
             gameStage.setTitle("N IN A ROW GAME");
             Pane root = loader.load();
             GameController gameController = loader.getController();
+            gameController.setMenuScreen(primaryStage);
             gameController.setPrimaryStage(gameStage);
             gameController.setGameManager(gameManager);
             Scene scene = new Scene(root, 900, 600);

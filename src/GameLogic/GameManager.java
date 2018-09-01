@@ -15,11 +15,7 @@ public class GameManager {
     private String variant;
     private boolean activeGame = false;
     private int turnIndex = 0;
-    private GameTimer gameTimer;
-    private Timer timer;
     private GameHistory history;
-//    private boolean savedGamedLoaded = false;
-//    private boolean loadedBoard = false;
 
     public void incTurnIndex() {
         turnIndex++;
@@ -39,17 +35,20 @@ public class GameManager {
     }
 
 
-//    public void checkWinner(int col, String gameType) {
-//        gameBoard.checkPlayerWin(col, gameType);
-//    }
+    public void resetGame()
+    {
+        gameBoard.reset();
+        resetPlayersData();
+        turnIndex = 0;
 
-    public void startTimer() {
-        gameTimer = new GameTimer();
-        timer = new Timer();
     }
 
-    public String getCurrTime() {
-        return gameTimer.getTime();
+    private void resetPlayersData()
+    {
+        for(GameLogic.Player player : playersByOrder)
+        {
+            player.setTurnCounter(0);
+        }
     }
 
     public void setActiveGame(boolean activeGame) {
@@ -86,16 +85,62 @@ public class GameManager {
         return gameBoard;
     }
 
-    public int ComputerPlay() {
+    public ComputerChoice ComputerPlay() {
         Random rand = new Random();
-        int choosenCol = rand.nextInt((int) gameBoard.getCols() - 1);
-        int placeInBoard = gameBoard.getBoard()[1][choosenCol];
-        while (placeInBoard != -1) {
-            choosenCol = rand.nextInt((int) gameBoard.getCols() - 1);
-            placeInBoard = gameBoard.getBoard()[1][choosenCol];
+        int choosenCol;
+        int randomNum;
+        ComputerChoice computerChoice = new ComputerChoice();
 
+        List<Integer> colsToEnterTo = gameBoard.checkAvaliableColForEnter();
+
+        if(!colsToEnterTo.isEmpty())
+        {
+            computerChoice.setPopout(false);
+            if(colsToEnterTo.size() == 1)
+            {
+                choosenCol =  colsToEnterTo.get(0);
+            }
+            else {
+                randomNum = rand.nextInt(colsToEnterTo.size() - 1);
+                choosenCol = colsToEnterTo.get(randomNum);
+                int placeInBoard = gameBoard.getBoard()[0][choosenCol];
+                while (placeInBoard != -1) {
+                    randomNum = rand.nextInt(colsToEnterTo.size() - 1);
+                    choosenCol = colsToEnterTo.get(randomNum);
+                    placeInBoard = gameBoard.getBoard()[1][choosenCol];
+                }
+            }
+            computerChoice.setChoosenCol(choosenCol);
         }
-        return choosenCol;
+        else
+        {
+            if(variant.toUpperCase().equals("POPOUT")) {
+                List<Integer> colsToRemoveFrom = gameBoard.checkAvaliableColForRemove(playersByOrder.get(turnIndex).getPlayerSign());
+                computerChoice.setPopout(true);
+
+                if (!colsToRemoveFrom.isEmpty()) {
+                    if (colsToRemoveFrom.size() == 1) {
+                        choosenCol = colsToRemoveFrom.get(0);
+                    } else {
+                        randomNum = rand.nextInt(colsToRemoveFrom.size() - 1);
+                        choosenCol = colsToRemoveFrom.get(randomNum);
+                        int placeInBoard = gameBoard.getBoard()[0][choosenCol];
+                        while (placeInBoard != playersByOrder.get(turnIndex).getPlayerSign()) {
+                            randomNum = rand.nextInt(colsToRemoveFrom.size() - 1);
+                            choosenCol = colsToRemoveFrom.get(randomNum);
+                            placeInBoard = gameBoard.getBoard()[0][choosenCol];
+                        }
+                    }
+                    computerChoice.setChoosenCol(choosenCol);
+                } else {
+                    computerChoice.setSucceeded(false);
+                }
+            }
+            else {
+                computerChoice.setSucceeded(false);
+            }
+        }
+        return computerChoice;
     }
 
     public void incCurrPlayerTurn() {

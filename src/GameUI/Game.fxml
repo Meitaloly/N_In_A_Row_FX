@@ -66,11 +66,18 @@
                      </children>
                   </VBox>
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <Region prefHeight="62.0" prefWidth="382.0" HBox.hgrow="ALWAYS" />
+                  <Region prefHeight="62.0" prefWidth="183.0" HBox.hgrow="ALWAYS" />
                   <VBox prefHeight="62.0" prefWidth="157.0">
                      <children>
                         <Region prefHeight="197.0" prefWidth="157.0" />
-                        <Button mnemonicParsing="false" prefHeight="19.0" prefWidth="157.0" styleClass="exitGameBtn" text="Leave Game" />
+                        <Button fx:id="leaveGameBtn" mnemonicParsing="false" prefHeight="19.0" prefWidth="157.0" styleClass="exitGameBtn" text="Leave Game" />
+                        <Region prefHeight="200.0" prefWidth="157.0" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="62.0" prefWidth="157.0">
+                     <children>
+                        <Region prefHeight="197.0" prefWidth="157.0" />
+                        <Button fx:id="finishGameBtn" mnemonicParsing="false" onAction="#finishTheGame" prefHeight="19.0" prefWidth="157.0" styleClass="exitGameBtn" text="Finish Game" />
                         <Region prefHeight="200.0" prefWidth="157.0" />
                      </children>
                   </VBox>
@@ -85,7 +92,7 @@
          <children>
             <HBox prefHeight="49.0" prefWidth="553.0">
                <children>
-                  <Label fx:id="playerTurnLabel" prefHeight="49.0" prefWidth="405.0">
+                  <Label fx:id="playerTurnLabel" prefHeight="30.0" prefWidth="606.0">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>

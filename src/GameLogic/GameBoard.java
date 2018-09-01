@@ -1,5 +1,6 @@
 package GameLogic;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,13 +20,36 @@ public class GameBoard {
         target = i_target;
         numOfFreePlaces = (int)(rows) * (int)(cols);
         board = new int[Math.toIntExact(rows)][Math.toIntExact(cols)];
-        buildTheBoard();
+        resetBoard();
     }
 
     public boolean isColFull(int col) {
         boolean res = false;
         if (board[0][col-1] != -1) {
             res = true;
+        }
+        return res;
+    }
+    public boolean isBoardFull()
+    {
+        boolean res = true;
+        for(int i = 0;i<cols;i++) {
+            if (board[0][i] == -1) {
+                res = false;
+                break;
+            }
+        }
+        return res;
+    }
+
+    public boolean checkPlayerCanRemove(int sign)
+    {
+        boolean res = false;
+        for(int i = 0;i<cols;i++) {
+            if (board[(int)rows-1][i] == sign) {
+                res = true;
+                break;
+            }
         }
         return res;
     }
@@ -59,17 +83,6 @@ public class GameBoard {
         board = new int[Math.toIntExact(rows)][Math.toIntExact(cols)];
     }
 
-    public void buildTheBoard() {
-
-//        for (int i = 0; i < cols; i++) {
-//            board[0][i] = i;
-//        }
-
-        for (int i = 0; i < rows; i++) {
-            Arrays.fill(board[i], -1);//            board[i][0] = i;
-
-        }
-    }
 
     public void resetBoard(){
         for (int i = 0; i < rows; i++) {
@@ -82,7 +95,7 @@ public class GameBoard {
     }
 
     public void reset() {
-        buildTheBoard();
+        resetBoard();
         numOfFreePlaces = (int) (rows - 1) * (int) (cols - 1);
     }
 
@@ -141,6 +154,9 @@ public class GameBoard {
         {
             for(int j=0; j<cols; j++)
             {
+                if(board[i][j] != -1) {
+                    System.out.print(" ");
+                }
                 System.out.print(board[i][j]);
                 System.out.print(" ");
             }
@@ -183,69 +199,223 @@ public class GameBoard {
         return res;
     }
 
-    public boolean isDiagonal(int row,int col){
+
+    public boolean isDiagonal(int row, int col)
+    {
         boolean res = false;
-        long  len = target-1;
+        long len = target -1;
         int mySign = board[row][col];
-        int newCol = col +1, newRow = row+1;
-
-        while (newCol <= cols-1 && newRow <= rows-1 && !res && board[newRow][newCol] == mySign ){  //go down rigth
-            len--;
-            if (len > 0 ){
-                newCol++;
-                newRow++;
-            }
-            else if (len == 0){
-                res = true;
-            }
-        }
-        if (!res && len > 0 ){
-            newCol = col - 1;
-            newRow = row -1;
-            while (newCol>=1 && newRow >= 1 && !res && board[newRow][newCol] == mySign ){
-                len--;
-                if (len > 0 ){
-                    newCol--;
-                    newRow--;
-                }
-                else if (len ==0){
-                    res = true;
-                }
-            }
-        }
-        if (!res){
-            newCol = col + 1;
-            newRow = row - 1;
-
-            while (newCol <= cols-1 && newRow >= 1 && !res && board[newRow][newCol] == mySign ){  //go down rigth
-                len--;
-                if (len > 0 ){
-                    newCol++;
-                    newRow--;
-                }
-                else if (len == 0){
-                    res = true;
-                }
-            }
-            if (!res && len > 0 ){
-                newCol = col - 1;
-                newRow = row  + 1;
-                while (newCol >= 1 && newRow <= rows-1 && !res && board[newRow][newCol] == mySign ){
-                    len--;
-                    if (len > 0 ){
-                        newCol--;
-                        newRow++;
-                    }
-                    else if (len ==0){
+        len -= checkLeftUp(row,col,mySign,len);
+        if(len>0) {
+            len -= checkRightDown(row, col, mySign, len);
+            if (len > 0) {
+                len = target - 1;
+                len -= checkRightUp(row, col, mySign, len);
+                if (len > 0) {
+                    len -= checkLeftDown(row, col, mySign, len);
+                    if(len == 0)
+                    {
                         res = true;
                     }
                 }
+                else
+                {
+                    res =true;
+                }
             }
-
+            else
+            {
+                res = true;
+            }
+        }
+        else
+        {
+            res =true;
         }
 
+        if(res)
+        {
+            System.out.println("won in Diagonal");
+        }
         return res;
     }
+
+
+    private long checkRightUp(int row, int col, int mySign,long newTarget)
+    {
+        long len =0;
+        boolean stop = false;
+        int newRow = row-1;
+        int newCol = col+1;
+
+        while(newCol<=cols-1 && newRow<=rows-1 && !stop && len<=newTarget)
+        {
+            if(newCol<0 || newRow<0)
+            {
+                stop= true;
+            }
+            else {
+                if (board[newRow][newCol] == mySign) {
+                    newRow = newRow - 1;
+                    newCol = newCol + 1;
+                    len++;
+                } else {
+                    stop = true;
+                }
+            }
+        }
+        return len;
+    }
+
+    private long checkLeftDown(int row, int col, int mySign,long newTarget)
+    {
+        long len =0;
+        boolean stop = false;
+        int newRow = row+1;
+        int newCol = col-1;
+
+        while(newCol<=cols-1 && newRow<=rows-1 && !stop && len<=newTarget)
+        {
+            if(newCol<0 || newRow<0)
+            {
+                stop= true;
+            }
+            else {
+                if (board[newRow][newCol] == mySign) {
+                    newRow = newRow + 1;
+                    newCol = newCol - 1;
+                    len++;
+
+                } else {
+                    stop = true;
+                }
+            }
+        }
+        return len;
+    }
+
+    private long checkRightDown(int row, int col, int mySign,long newTarget)
+    {
+        long len =0;
+        boolean stop = false;
+        int newRow = row+1;
+        int newCol = col +1;
+
+        while(newCol<=cols-1 && newRow<=rows-1 && !stop && len<=newTarget)
+        {
+            if(newCol<0 || newRow<0)
+            {
+                stop= true;
+            }
+            else {
+                if (board[newRow][newCol] == mySign) {
+                    newRow = newRow + 1;
+                    newCol = newCol + 1;
+                    len++;
+
+                } else {
+                    stop = true;
+                }
+            }
+        }
+
+        return len;
+    }
+
+    private long checkLeftUp(int row, int col, int mySign,long newTarget)
+    {
+        long len =0;
+        boolean stop = false;
+        int newRow = row-1;
+        int newCol = col -1;
+
+        while(newCol<=cols-1  && newRow<=rows-1 && !stop && len<=newTarget)
+        {
+            if(newCol<0 || newRow<0)
+            {
+                stop= true;
+            }
+            else {
+                if (board[newRow][newCol] == mySign) {
+                    newRow = newRow - 1;
+                    newCol = newCol - 1;
+                    len++;
+                } else {
+                    stop = true;
+                }
+            }
+        }
+
+        return len;
+    }
+//
+//    public boolean isDiagonal(int row,int col){
+//        boolean res = false;
+//        long  len = target-1;
+//        int mySign = board[row][col];
+//        int newCol = col +1, newRow = row+1;
+//
+//        while (newCol <= cols-1 && newRow <= rows-1 && !res && board[newRow][newCol] == mySign ){  //go down rigth
+//            len--;
+//            if (len > 0 ){
+//                newCol++;
+//                newRow++;
+//            }
+//            else if (len == 0){
+//                res = true;
+//            }
+//        }
+//        if (!res && len > 0 ){
+//            newCol = col - 1;
+//            newRow = row -1;
+//            while (newCol>=1 && newRow >= 1 && !res && board[newRow][newCol] == mySign ){
+//                len--;
+//                if (len > 0 ){
+//                    newCol--;
+//                    newRow--;
+//                }
+//                else if (len ==0){
+//                    res = true;
+//                }
+//            }
+//        }
+//        if (!res){
+//            newCol = col + 1;
+//            newRow = row - 1;
+//
+//            while (newCol <= cols-1 && newRow >= 1 && !res && board[newRow][newCol] == mySign ){  //go down rigth
+//                len--;
+//                if (len > 0 ){
+//                    newCol++;
+//                    newRow--;
+//                }
+//                else if (len == 0){
+//                    res = true;
+//                }
+//            }
+//            if (!res && len > 0 ){
+//                newCol = col - 1;
+//                newRow = row  + 1;
+//                while (newCol >= 1 && newRow <= rows-1 && !res && board[newRow][newCol] == mySign ){
+//                    len--;
+//                    if (len > 0 ){
+//                        newCol--;
+//                        newRow++;
+//                    }
+//                    else if (len ==0){
+//                        res = true;
+//                    }
+//                }
+//            }
+//
+//        }
+//
+//        if (res)
+//        {
+//            System.out.println("won in Diagonal");
+//        }
+//        return res;
+//    }
 
 
     public boolean isHorizontalCircular(int row, int col) {
@@ -254,11 +424,11 @@ public class GameBoard {
         int mySign = this.board[row][col];
         int newCol = (col + 1) % (int)this.cols;
 
-        while((long)newCol != col % (this.cols - 1) && !res && this.board[row][newCol] == mySign) {
+        while((long)newCol != col && !res && this.board[row][newCol] == mySign) {
             --len;
             if (len > 0L) {
                 ++newCol;
-                newCol= newCol % (int)(this.cols - 1);
+                newCol= newCol % (int)(this.cols);
             } else if (len == 0) {
                 res = true;
             }
@@ -270,7 +440,7 @@ public class GameBoard {
             {
                 newCol = (int)this.cols-1;
             }
-            while(newCol != col % (this.cols - 1) && !res && this.board[row][newCol] == mySign) {
+            while(newCol != col && !res && this.board[row][newCol] == mySign) {
                 --len;
                 if (len > 0) {
                     --newCol;
@@ -283,6 +453,10 @@ public class GameBoard {
             }
         }
 
+        if (res)
+        {
+            System.out.println("won in H");
+        }
         return res;
     }
 
@@ -292,11 +466,11 @@ public class GameBoard {
         int mySign = this.board[row][col];
         int newRow = (row + 1) % (int)this.rows;
 
-        while((long)newRow != row % (this.rows - 1) && !res && this.board[newRow][col] == mySign) {
+        while((long)newRow != row && !res && this.board[newRow][col] == mySign) {
             --len;
             if (len > 0) {
                 ++newRow;
-                newRow = newRow  % (int)(this.rows - 1);
+                newRow = newRow  % (int)(this.rows);
             } else if (len == 0) {
                 res = true;
             }
@@ -307,7 +481,7 @@ public class GameBoard {
             if (newRow < 0) {
                 newRow = (int)this.rows-1;
             }
-            while (newRow != row % (this.rows - 1) && !res && this.board[newRow][col] == mySign) {
+            while (newRow != row  && !res && this.board[newRow][col] == mySign) {
                 --len;
                 if (len > 0) {
                     --newRow;
@@ -319,10 +493,13 @@ public class GameBoard {
                 }
             }
         }
+
+        if (res)
+        {
+            System.out.println("won in V");
+        }
         return res;
     }
-
-
 
     public boolean isHorizontal(int row,int col){
         boolean res = false;
@@ -351,6 +528,12 @@ public class GameBoard {
                     res = true;
                 }
             }
+        }
+
+
+        if (res)
+        {
+            System.out.println("won in H");
         }
         return res;
     }
@@ -383,6 +566,11 @@ public class GameBoard {
                     res = true;
                 }
             }
+        }
+
+        if (res)
+        {
+            System.out.println("won in V");
         }
         return res;
     }
@@ -421,4 +609,38 @@ public class GameBoard {
 
         return res;
     }
+
+    public List<Integer> checkAvaliableColForEnter()
+    {
+        List<Integer> res = new ArrayList<>();
+
+        for(int i=0; i<cols; i++)
+        {
+            if(board[0][i] ==-1)
+            {
+                res.add(i);
+            }
+            else
+            {
+                int j=1;
+            }
+        }
+        return res;
+    }
+
+    public List<Integer> checkAvaliableColForRemove(int sign)
+    {
+        List<Integer> res = new ArrayList<>();
+
+        for(int i=0; i<cols; i++)
+        {
+            if(board[(int)this.rows-1][i] == sign)
+            {
+                res.add(i);
+            }
+        }
+        return res;
+
+    }
+
 }
