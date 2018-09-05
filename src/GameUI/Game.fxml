@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="608.0" prefWidth="829.0" styleClass="gameWindow" stylesheets="@../resoures/CssStyleFiles/Game.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GameUI.GameController">
+<BorderPane fx:id="mainBorderPane" styleClass="gameWindow" stylesheets="@../resoures/CssStyleFiles/Game.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GameUI.GameController">
    <top>
       <VBox prefHeight="64.0" prefWidth="753.0" BorderPane.alignment="CENTER">
          <children>
@@ -20,12 +22,12 @@
                      <children>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Label prefHeight="62.0" prefWidth="99.0" text="Game's type:">
+                              <Label prefHeight="62.0" prefWidth="99.0" text="Game's type:" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold Italic" size="15.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="variantLabel" prefHeight="91.0" prefWidth="127.0">
+                              <Label fx:id="variantLabel" prefHeight="91.0" prefWidth="127.0" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold Italic" size="15.0" />
                                  </font>
@@ -34,12 +36,12 @@
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Label prefHeight="62.0" prefWidth="99.0" text="Target:">
+                              <Label prefHeight="62.0" prefWidth="99.0" text="Target:" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold Italic" size="15.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="targetLabel" prefHeight="91.0" prefWidth="127.0">
+                              <Label fx:id="targetLabel" prefHeight="91.0" prefWidth="127.0" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold Italic" size="15.0" />
                                  </font>
@@ -49,11 +51,19 @@
                      </children>
                   </VBox>
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <Region prefHeight="62.0" prefWidth="382.0" HBox.hgrow="ALWAYS" />
+                  <Button mnemonicParsing="false" onAction="#switchBackground" prefHeight="41.0" prefWidth="127.0" styleClass="exitGameBtn" text="switch">
+                     <HBox.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Region prefHeight="62.0" prefWidth="262.0" HBox.hgrow="ALWAYS" />
                   <VBox prefHeight="62.0" prefWidth="157.0">
                      <children>
                         <Region prefHeight="197.0" prefWidth="157.0" />
-                        <Button mnemonicParsing="false" prefHeight="19.0" prefWidth="157.0" styleClass="exitGameBtn" text="Leave Game" />
+                        <Button mnemonicParsing="false" onAction="#leaveTheGame" prefHeight="41.0" prefWidth="126.0" styleClass="exitGameBtn" text="Leave Game">
+                           <VBox.margin>
+                              <Insets right="10.0" />
+                           </VBox.margin></Button>
                         <Region prefHeight="200.0" prefWidth="157.0" />
                      </children>
                   </VBox>
@@ -64,46 +74,38 @@
       </VBox>
    </top>
    <center>
-      <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: scroll-pane;" BorderPane.alignment="CENTER">
-         <content>
-            <VBox prefHeight="544.0" prefWidth="629.0">
-               <children>
-                  <HBox prefHeight="48.0" prefWidth="629.0">
+      <SplitPane dividerPositions="0.750906892382104" style="-fx-background-color: split-pane;" BorderPane.alignment="CENTER">
+         <items>
+            <ScrollPane style="-fx-background-color: split-pane;" styleClass="split-pane">
+               <content>
+                  <VBox>
                      <children>
-                        <Label fx:id="playerTurnLabel">
-                           <font>
-                              <Font name="System Bold Italic" size="20.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox fx:id="arrowArea" prefHeight="100.0" prefWidth="200.0" />
-                  <HBox fx:id="centerArea" prefHeight="276.0" prefWidth="629.0" />
-                  <HBox fx:id="downArea" prefHeight="100.0" prefWidth="200.0" />
-               </children>
-            </VBox>
-         </content>
-      </ScrollPane>
-   </center>
-   <right>
-      <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: scroll-pane;" BorderPane.alignment="CENTER">
-         <content>
-            <HBox prefHeight="544.0" prefWidth="200.0">
-               <children>
-                  <Separator orientation="VERTICAL" />
-                  <VBox fx:id="playerListVBox" prefHeight="544.0" prefWidth="198.0">
-                     <children>
-                        <Label prefHeight="47.0" prefWidth="213.0" text="    Player info">
-                           <font>
-                              <Font name="David Bold" size="28.0" />
-                           </font>
-                        </Label>
-                        <Separator prefHeight="9.0" prefWidth="198.0" />
+                        <HBox>
+                           <children>
+                              <Label fx:id="playerTurnLabel" />
+                           </children>
+                        </HBox>
+                        <HBox fx:id="arrowArea" />
+                        <HBox fx:id="centerArea" />
+                        <HBox fx:id="downArea" />
                      </children>
                   </VBox>
-               </children>
-            </HBox>
-         </content>
-      </ScrollPane>
-   </right>
+               </content>
+            </ScrollPane>
+            <ScrollPane style="-fx-background-color: split-pane;" styleClass="split-pane" SplitPane.resizableWithParent="false">
+               <content>
+                  <VBox fx:id="playerListVBox" prefHeight="541.0" prefWidth="208.0">
+                     <children>
+                        <Label text=" Players info">
+                           <font>
+                              <Font name="Bodoni MT" size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </items>
+      </SplitPane>
+   </center>
 </BorderPane>

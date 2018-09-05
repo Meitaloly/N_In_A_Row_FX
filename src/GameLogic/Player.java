@@ -74,6 +74,10 @@ public class Player {
         active = true;
     }
 
+    public void setDisable(){
+        active = false;
+    }
+
     public boolean isAcive (){
         return active;
     }

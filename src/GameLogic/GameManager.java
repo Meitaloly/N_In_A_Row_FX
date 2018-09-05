@@ -34,7 +34,6 @@ public class GameManager {
         gameBoard = new GameBoard();
     }
 
-
     public void resetGame()
     {
         gameBoard.reset();

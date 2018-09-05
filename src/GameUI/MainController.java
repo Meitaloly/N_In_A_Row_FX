@@ -118,7 +118,7 @@ public class MainController {
             gameController.setMenuScreen(primaryStage);
             gameController.setPrimaryStage(gameStage);
             gameController.setGameManager(gameManager);
-            Scene scene = new Scene(root, 900, 600);
+            Scene scene = new Scene(root);
             gameStage.setScene(scene);
 
             primaryStage.hide();

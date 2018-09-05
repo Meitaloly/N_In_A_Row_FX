@@ -161,6 +161,7 @@ public class GameController {
                         nextTurnAction();
                     }
                 }
+
             }
         });
     }
@@ -467,6 +468,7 @@ public class GameController {
 
         Separator newSep = new Separator();
         newSep.getStyleClass().add("sepPlayers");
+        newSep.setPrefSize(Region.USE_COMPUTED_SIZE,Region.USE_COMPUTED_SIZE);
         newVBox.getChildren().add(newSep);
     }
 
@@ -486,9 +488,11 @@ public class GameController {
 //    }
 
     public void nextTurnAction() {
+
         //int index = gameManager.getTurnIndex();
         gameManager.incCurrPlayerTurn();
         gameManager.incTurnIndex();
+        //setTurnsToScreen();    ////////////// not working with comp player
         currPlayer = gameManager.getPlayersByOrder().get(gameManager.getTurnIndex());
         dickColor = currPlayer.getPlayerColor();
         while (!currPlayer.isAcive()) {
@@ -523,6 +527,15 @@ public class GameController {
                 }
             }
         }
+
+    }
+
+    public void setTurnsToScreen(){
+        VBox VBtemp = (VBox)playerListVBox.getChildren().get(gameManager.getTurnIndex());
+        HBox HBtemp =  (HBox)VBtemp.getChildren().get(4);
+        Label temp = (Label)HBtemp.getChildren().get(1);
+        Integer turns = currPlayer.getTurnCounter();
+        temp.setText(turns.toString());
     }
 
     public void RunTask() throws InterruptedException {
@@ -564,5 +577,27 @@ public class GameController {
             alert.showAndWait();
             finishTheGame();
         }
+    }
+
+    public void switchBackground(){
+        //ImageView change = new ImageView();
+        //Image img = new Image("resoures/images/red-background.png");
+        mainBorderPane.getStyleClass().clear();
+        mainBorderPane.getStyleClass().add("style2");
+        //primaryStage.show();
+        showBoard();
+
+    }
+
+    public void leaveTheGame(){
+        VBox VBtemp = (VBox)playerListVBox.getChildren().get(gameManager.getTurnIndex());
+        Label temp = (Label)VBtemp.getChildren().get(1);
+        temp.setText("Name: " + currPlayer.getName() + " (leave the game.");
+        gameManager.getGameBoard().removeAllDisksOfPlayer(currPlayer);
+        for (int col = 0 ; col < gameManager.getGameBoard().getCols(); col++){
+            removeDiskFromCol(col);
+        }
+        currPlayer.setDisable();
+        gameManager.incTurnIndex();
     }
 }

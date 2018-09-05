@@ -78,11 +78,11 @@
 
 }
 
-.scroll-pane > .viewport {
+.split-pane > .viewport {
     -fx-background-color: transparent;
 }
 
-.scroll-pane{
+.split-pane{
     -fx-background:transparent;
 }
 
