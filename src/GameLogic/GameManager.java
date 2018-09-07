@@ -24,6 +24,11 @@ public class GameManager {
         }
     }
 
+
+    public void setTurnIndex(int turnIndex) {
+        this.turnIndex = turnIndex;
+    }
+
     public int getTurnIndex() {
         return turnIndex;
     }
@@ -37,8 +42,9 @@ public class GameManager {
     public void resetGame()
     {
         gameBoard.reset();
+        setActiveGame(false);
         resetPlayersData();
-        turnIndex = 0;
+        setTurnIndex(0);
 
     }
 
@@ -46,6 +52,7 @@ public class GameManager {
     {
         for(GameLogic.Player player : playersByOrder)
         {
+            player.setActive();
             player.setTurnCounter(0);
         }
     }
@@ -54,7 +61,11 @@ public class GameManager {
         this.activeGame = activeGame;
     }
 
-    public ArrayList<GameLogic.Player> getPlayersByOrder() {
+    public boolean getActiveGame() {
+        return activeGame;
+    }
+
+        public ArrayList<GameLogic.Player> getPlayersByOrder() {
         return playersByOrder;
     }
 
@@ -144,6 +155,33 @@ public class GameManager {
 
     public void incCurrPlayerTurn() {
         playersByOrder.get(turnIndex).incTurnCounter();
+    }
+
+    public boolean isOnlyOnePlayerLeft()
+    {
+        boolean res = false;
+        int counter = playersByOrder.size();
+        for(GameLogic.Player player: playersByOrder) {
+            if(!player.isAcive()) {
+                counter--;
+                if (counter == 1) {
+                    res = true;
+                    break;
+                }
+            }
+        }
+        return res;
+    }
+
+    public GameLogic.Player getWinnerPlayer()
+    {
+        GameLogic.Player winner = null;
+        for(GameLogic.Player player: playersByOrder) {
+            if(player.isAcive()) {
+                winner=  player;
+            }
+        }
+        return winner;
     }
 
     public boolean buildPlayersFromFile() {

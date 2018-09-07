@@ -60,6 +60,7 @@ public class LoaderController {
                     mainStage.show();
                     res[0] = currentRunningTask.getValue();
                     mainController.doWhenTaskFinish(res[0]);
+
                 }
                 )
         );

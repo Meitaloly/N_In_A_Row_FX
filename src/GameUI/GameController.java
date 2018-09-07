@@ -54,12 +54,21 @@ public class GameController {
     Button finishGameBtn;
     @FXML
     Button leaveGameBtn;
+    @FXML
+    Button startGameBtn;
+
 
     private Stage primaryStage;
     private GameManager gameManager;
     private Player currPlayer;
     private String dickColor;
     private Stage MenuScreen;
+
+
+    public GameController()
+    {
+        //leaveGameBtn.setDisable(true);
+    }
 
     public void setMenuScreen(Stage menuScreen) {
         MenuScreen = menuScreen;
@@ -73,7 +82,21 @@ public class GameController {
         this.primaryStage = primaryStage;
     }
 
+    public void showGameBoard()
+    {
+        showPlayersToScreen();
+        setGameType();
+        showBoard();
+        targetLabel.setText(String.valueOf(gameManager.getGameBoard().getTarget()));
+    }
+
     public void startGame() {
+        //startGameBtn.setDisable(true);
+        gameManager.resetGame();
+        gameManager.setActiveGame(true);
+        //leaveGameBtn.setDisable(false);
+        startGameBtn.setDisable(true);
+        gameManager.setActiveGame(true);
         showPlayersToScreen();
         setGameType();
         showBoard();
@@ -138,9 +161,11 @@ public class GameController {
 
             @Override
             public void handle(MouseEvent event) {
-                if (!currPlayer.getPlayerType().toUpperCase().equals("COMPUTER")) {
-                    arrowImg.setFitHeight(40);
-                    arrowImg.setFitWidth(40);
+                if(gameManager.getActiveGame()) {
+                    if (!currPlayer.getPlayerType().toUpperCase().equals("COMPUTER")) {
+                        arrowImg.setFitHeight(40);
+                        arrowImg.setFitWidth(40);
+                    }
                 }
             }
         });
@@ -148,20 +173,22 @@ public class GameController {
         arrowImg.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if (!currPlayer.getPlayerType().toUpperCase().equals("COMPUTER")) {
-                    arrowImg.setFitHeight(50);
-                    arrowImg.setFitWidth(50);
+                if(gameManager.getActiveGame()) {
 
-                    if (checkColFull(arrowImg.getId())) {
-                        Alert alert = new Alert(Alert.AlertType.WARNING, "Col is Full! Please Choose Another One ");
-                        alert.showAndWait();
-                    } else {
-                        insertDiskToCol(arrowImg.getId());/////////////////////////////  28.8.18
-                        gameManager.getGameBoard().printBoard(); // for debug
-                        nextTurnAction();
+                    if (!currPlayer.getPlayerType().toUpperCase().equals("COMPUTER")) {
+                        arrowImg.setFitHeight(50);
+                        arrowImg.setFitWidth(50);
+
+                        if (checkColFull(arrowImg.getId())) {
+                            Alert alert = new Alert(Alert.AlertType.WARNING, "Col is Full! Please Choose Another One ");
+                            alert.showAndWait();
+                        } else {
+                            insertDiskToCol(arrowImg.getId());/////////////////////////////  28.8.18
+                            gameManager.getGameBoard().printBoard(); // for debug
+                            nextTurnAction();
+                        }
                     }
                 }
-
             }
         });
     }
@@ -171,9 +198,11 @@ public class GameController {
 
                     @Override
                     public void handle(MouseEvent event) {
-                        if (!currPlayer.getPlayerType().toUpperCase().equals("COMPUTER")) {
-                            removeDickImg.setFitHeight(40);
-                            removeDickImg.setFitWidth(40);
+                        if(gameManager.getActiveGame()) {
+                            if (!currPlayer.getPlayerType().toUpperCase().equals("COMPUTER")) {
+                                removeDickImg.setFitHeight(40);
+                                removeDickImg.setFitWidth(40);
+                            }
                         }
                     }
                 });
@@ -181,27 +210,29 @@ public class GameController {
         removeDickImg.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if (!currPlayer.getPlayerType().toUpperCase().equals("COMPUTER")) {
+                if (gameManager.getActiveGame()) {
+                    if (!currPlayer.getPlayerType().toUpperCase().equals("COMPUTER")) {
 
-                    removeDickImg.setFitHeight(50);
-                    removeDickImg.setFitWidth(50);
+                        removeDickImg.setFitHeight(50);
+                        removeDickImg.setFitWidth(50);
 
-                    String[] idArr = removeDickImg.getId().split(" ");
-                    int col = Integer.valueOf(idArr[1]) - 1;
+                        String[] idArr = removeDickImg.getId().split(" ");
+                        int col = Integer.valueOf(idArr[1]) - 1;
 
-                    if (checkColEmpty(col)) {
-                        Alert alert = new Alert(Alert.AlertType.WARNING, "Can't remove disk from empty col!");
-                        alert.showAndWait();
-                    } else {
-                        if (gameManager.getGameBoard().checkSignAndRemove(col, currPlayer.getPlayerSign())) {
-                            nextTurnAction();
-                            currPlayer = gameManager.getPlayersByOrder().get(gameManager.getTurnIndex());
-                            gameManager.getGameBoard().printBoard(); // for debug
-                            removeDiskFromCol(col);
-
-                        } else {
-                            Alert alert = new Alert(Alert.AlertType.WARNING, "Can't remove dick! Not your dick!");
+                        if (checkColEmpty(col)) {
+                            Alert alert = new Alert(Alert.AlertType.WARNING, "Can't remove disk from empty col!");
                             alert.showAndWait();
+                        } else {
+                            if (gameManager.getGameBoard().checkSignAndRemove(col, currPlayer.getPlayerSign())) {
+                                nextTurnAction();
+                                currPlayer = gameManager.getPlayersByOrder().get(gameManager.getTurnIndex());
+                                gameManager.getGameBoard().printBoard(); // for debug
+                                removeDiskFromCol(col);
+
+                            } else {
+                                Alert alert = new Alert(Alert.AlertType.WARNING, "Can't remove dick! Not your dick!");
+                                alert.showAndWait();
+                            }
                         }
                     }
                 }
@@ -496,8 +527,8 @@ public class GameController {
         gameManager.incTurnIndex();
         currPlayer = gameManager.getPlayersByOrder().get(gameManager.getTurnIndex());
         dickColor = currPlayer.getPlayerColor();
-        while (!currPlayer.isAcive()) {
-            gameManager.incTurnIndex();
+        if (!currPlayer.isAcive()) {
+            nextTurnAction();
         }
         playerTurnLabel.setText("Current player name: " + currPlayer.getName());
         if(currPlayer.getPlayerType().toUpperCase().equals("COMPUTER"))
@@ -600,6 +631,20 @@ public class GameController {
             removeDiskFromCol(col);
         }
         currPlayer.setDisable();
-        nextTurnAction();
+        if(gameManager.isOnlyOnePlayerLeft())
+        {
+            printWinner();
+        }
+        else {
+            nextTurnAction();
+        }
+    }
+
+    public void printWinner()
+    {
+        Player winner = gameManager.getWinnerPlayer();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, winner.getName()+ " WON!");
+        alert.showAndWait();
+        finishTheGame();
     }
 }
