@@ -14,11 +14,11 @@
 
 <BorderPane fx:id="mainBorderPane" styleClass="gameWindow" stylesheets="@../resoures/CssStyleFiles/Game.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GameUI.GameController">
    <top>
-      <VBox prefHeight="64.0" prefWidth="753.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="85.0" prefWidth="753.0" BorderPane.alignment="CENTER">
          <children>
             <HBox fx:id="gameHeader" prefHeight="92.0" prefWidth="730.0">
                <children>
-                  <VBox prefHeight="62.0" prefWidth="241.0">
+                  <VBox prefHeight="42.0" prefWidth="242.0">
                      <children>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
@@ -49,20 +49,25 @@
                            </children>
                         </HBox>
                      </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <HBox.margin>
+                        <Insets bottom="5.0" />
+                     </HBox.margin>
                   </VBox>
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <Region prefHeight="62.0" prefWidth="262.0" HBox.hgrow="ALWAYS" />
-                  <VBox prefHeight="62.0" prefWidth="157.0">
+                  <VBox prefHeight="47.0" prefWidth="186.0">
                      <children>
                         <Region prefHeight="197.0" prefWidth="157.0" />
-                        <Button mnemonicParsing="false" onAction="#leaveTheGame" prefHeight="41.0" prefWidth="126.0" styleClass="exitGameBtn" text="Leave Game">
+                        <Button fx:id="leaveGameBtn" mnemonicParsing="false" onAction="#leaveTheGame" prefHeight="41.0" prefWidth="126.0" styleClass="exitGameBtn" text="Leave Game">
                            <VBox.margin>
                               <Insets right="10.0" />
                            </VBox.margin></Button>
                         <Region prefHeight="200.0" prefWidth="157.0" />
                      </children>
                   </VBox>
-                  <VBox prefHeight="62.0" prefWidth="157.0">
+                  <VBox prefHeight="47.0" prefWidth="181.0">
                      <children>
                         <Region prefHeight="197.0" prefWidth="157.0" />
                         <Button fx:id="startGameBtn" mnemonicParsing="false" onAction="#startGame" prefHeight="41.0" prefWidth="126.0" styleClass="exitGameBtn" text="Start Game">
@@ -73,6 +78,46 @@
                         <Region prefHeight="200.0" prefWidth="157.0" />
                      </children>
                   </VBox>
+                  <VBox prefHeight="62.0" prefWidth="157.0">
+                     <children>
+                        <Region prefHeight="197.0" prefWidth="157.0" />
+                        <Button fx:id="backBtn" mnemonicParsing="false" onAction="#backBtnAction" prefHeight="41.0" prefWidth="104.0" styleClass="exitGameBtn" text="Back">
+                           <VBox.margin>
+                              <Insets right="10.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Region prefHeight="200.0" prefWidth="157.0" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="62.0" prefWidth="157.0">
+                     <children>
+                        <Region prefHeight="197.0" prefWidth="157.0" />
+                        <Button fx:id="exitBtn" mnemonicParsing="false" onAction="#backBtnAction" prefHeight="41.0" prefWidth="98.0" styleClass="exitGameBtn" text="EXIT">
+                           <VBox.margin>
+                              <Insets right="10.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Region prefHeight="200.0" prefWidth="157.0" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Separator prefWidth="10.0" />
+            <HBox prefHeight="100.0" prefWidth="753.0">
+               <children>
+                  <Label prefHeight="34.0" prefWidth="130.0" text="File path:" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="pathLabel" prefHeight="33.0" prefWidth="675.0" textFill="#101125">
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                     <font>
+                        <Font name="System Bold Italic" size="15.0" />
+                     </font>
+                  </Label>
                </children>
             </HBox>
             <Separator prefWidth="10.0" />
@@ -82,7 +127,7 @@
    <center>
       <SplitPane dividerPositions="0.750906892382104" style="-fx-background-color: split-pane;" BorderPane.alignment="CENTER">
          <items>
-            <ScrollPane style="-fx-background-color: split-pane;" styleClass="split-pane">
+            <ScrollPane prefWidth="504.0" style="-fx-background-color: split-pane;" styleClass="split-pane">
                <content>
                   <VBox>
                      <children>

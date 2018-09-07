@@ -34,17 +34,12 @@
                            </font>
                                 </Button>
                                 <Pane prefHeight="35.0" prefWidth="75.0" />
-                                <Button fx:id="startGameBtn" mnemonicParsing="false" onAction="#startGame" prefHeight="50.0" prefWidth="250.0" styleClass="mainBtn" text="Start game" textFill="#15616b">
+                                <Button fx:id="showGameBtn" mnemonicParsing="false" onAction="#showGameAction" prefHeight="50.0" prefWidth="250.0" styleClass="mainBtn" text="Show Current Game " textFill="#15616b">
                            <font>
                               <Font name="Calibri Light" size="20.0" />
                            </font>
                                 </Button>
                                 <Pane prefHeight="35.0" prefWidth="75.0" />
-                                <Button fx:id="exitCurrGameBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" styleClass="mainBtn" text="Exit current game " textFill="#15616b">
-                           <font>
-                              <Font name="Calibri Light" size="20.0" />
-                           </font>
-                        </Button>
                                 <Pane prefHeight="35.0" prefWidth="75.0" />
                      </children>
                   </VBox>

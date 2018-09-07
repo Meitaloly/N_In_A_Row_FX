@@ -56,7 +56,10 @@ public class GameController {
     Button leaveGameBtn;
     @FXML
     Button startGameBtn;
-
+    @FXML
+    Button backBtn;
+    @FXML Label pathLabel;
+    @FXML Button exitBtn;
 
     private Stage primaryStage;
     private GameManager gameManager;
@@ -64,11 +67,6 @@ public class GameController {
     private String dickColor;
     private Stage MenuScreen;
 
-
-    public GameController()
-    {
-        //leaveGameBtn.setDisable(true);
-    }
 
     public void setMenuScreen(Stage menuScreen) {
         MenuScreen = menuScreen;
@@ -82,25 +80,32 @@ public class GameController {
         this.primaryStage = primaryStage;
     }
 
-    public void showGameBoard()
+    public void showGameBoard(String filePath)
     {
+        exitBtn.setDisable(true);
+        pathLabel.setText(filePath);
+        backBtn.setDisable(false);
+        leaveGameBtn.setDisable(true);
+        gameManager.resetGame();
         showPlayersToScreen();
         setGameType();
         showBoard();
         targetLabel.setText(String.valueOf(gameManager.getGameBoard().getTarget()));
     }
 
+    public void backBtnAction()
+    {
+        finishTheGame();
+    }
+
     public void startGame() {
-        //startGameBtn.setDisable(true);
-        gameManager.resetGame();
+        startGameBtn.setDisable(true);
+        exitBtn.setDisable(false);
+        backBtn.setDisable(true);
         gameManager.setActiveGame(true);
-        //leaveGameBtn.setDisable(false);
+        leaveGameBtn.setDisable(false);
         startGameBtn.setDisable(true);
         gameManager.setActiveGame(true);
-        showPlayersToScreen();
-        setGameType();
-        showBoard();
-        targetLabel.setText(String.valueOf(gameManager.getGameBoard().getTarget()));
         int index = gameManager.getTurnIndex();
         currPlayer = gameManager.getPlayersByOrder().get(index);
         dickColor = currPlayer.getPlayerColor();

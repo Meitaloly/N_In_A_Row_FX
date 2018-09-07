@@ -20,15 +20,15 @@ import java.net.URL;
 public class MainController {
 
     @FXML Label fileNameLable;
-    @FXML Button startGameBtn;
-    @FXML Button exitCurrGameBtn;
+    @FXML Button showGameBtn;
     @FXML GridPane mainGridPane;
     @FXML Label filePathLable;
 
     private Stage primaryStage;
     private GameManager gameManager;
     private File selectedFile;
-
+    private GameController gameController;
+    private Stage gameStage;
     public MainController()
     {
         gameManager = new GameManager();
@@ -39,8 +39,7 @@ public class MainController {
     }
 
     public void initialize() {
-        startGameBtn.setDisable(true);
-        exitCurrGameBtn.setDisable(true);
+        showGameBtn.setDisable(true);
     }
 
     public void openFileButtonAction() throws InterruptedException {
@@ -58,24 +57,33 @@ public class MainController {
         }
     }
 
+    public void showGameAction()
+    {
+        startGame();
+        gameController.showGameBoard(fileNameLable.getText());
+        primaryStage.hide();
+        gameStage.show();
+    }
+
     public void doWhenTaskFinish(int res)
     {
         if(res != -1)
         {
             String msg = ErrorMessageFromXmlFile(res);
             msg = msg + " Please Load New XML File!";
-            startGameBtn.setDisable(true);
+            showGameBtn.setDisable(true);
             filePathLable.setText("File Error: ");
             fileNameLable.setText(msg);
             fileNameLable.setTextFill(Color.RED);
         }
         else
         {
-            startGameBtn.setDisable(false);
+            showGameBtn.setDisable(false);
             filePathLable.setText("File Path: ");
             fileNameLable.setText(selectedFile.getPath());
             fileNameLable.setTextFill(Color.BLACK);
-
+            startGame();
+            gameController.showGameBoard(fileNameLable.getText());
         }
     }
 
@@ -111,19 +119,17 @@ public class MainController {
             FXMLLoader loader = new FXMLLoader();
             URL gameUrl = getClass().getResource("Game.fxml");
             loader.setLocation(gameUrl);
-            Stage gameStage = new Stage();
+            gameStage = new Stage();
             gameStage.setTitle("N IN A ROW GAME");
             Pane root = loader.load();
-            GameController gameController = loader.getController();
+            gameController = loader.getController();
             gameController.setMenuScreen(primaryStage);
             gameController.setPrimaryStage(gameStage);
             gameController.setGameManager(gameManager);
             Scene scene = new Scene(root);
             gameStage.setScene(scene);
-
             primaryStage.hide();
             gameStage.show();
-            gameController.startGame();
 
         } catch (IOException e) {
             e.printStackTrace();
