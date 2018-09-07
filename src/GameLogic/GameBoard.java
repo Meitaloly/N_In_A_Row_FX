@@ -649,7 +649,7 @@ public class GameBoard {
         int signToRemove = p.getPlayerSign();
         for (col = 0 ; col < cols; col ++ ) {
             for (row = (int)rows-1; row >= 0 && board[row][col] != -1; row--) {
-                if (board[row][col] == signToRemove) {
+                while (board[row][col] == signToRemove) {
                     for (int row2 = row; row2 >= 0 && board[row2][col] != -1; row2--) {
                         board[row2][col] = board[row2 - 1][col];
                     }

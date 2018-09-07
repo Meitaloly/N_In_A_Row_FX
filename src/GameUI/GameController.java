@@ -600,6 +600,6 @@ public class GameController {
             removeDiskFromCol(col);
         }
         currPlayer.setDisable();
-        gameManager.incTurnIndex();
+        nextTurnAction();
     }
 }
