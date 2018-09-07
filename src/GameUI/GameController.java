@@ -490,9 +490,10 @@ public class GameController {
     public void nextTurnAction() {
 
         //int index = gameManager.getTurnIndex();
+
+        setTurnsToScreen();    ////////////// not working with comp player
         gameManager.incCurrPlayerTurn();
         gameManager.incTurnIndex();
-        setTurnsToScreen();    ////////////// not working with comp player
         currPlayer = gameManager.getPlayersByOrder().get(gameManager.getTurnIndex());
         dickColor = currPlayer.getPlayerColor();
         while (!currPlayer.isAcive()) {
@@ -531,10 +532,11 @@ public class GameController {
     }
 
     public void setTurnsToScreen(){
-        VBox VBtemp = (VBox)playerListVBox.getChildren().get(gameManager.getTurnIndex());
+        int index = gameManager.getTurnIndex();
+        VBox VBtemp = (VBox)playerListVBox.getChildren().get(index+1);
         HBox HBtemp =  (HBox)VBtemp.getChildren().get(4);
         Label temp = (Label)HBtemp.getChildren().get(1);
-        Integer turns = currPlayer.getTurnCounter();
+        Integer turns = currPlayer.getTurnCounter()+1;
         temp.setText(turns.toString());
     }
 
