@@ -96,7 +96,7 @@
                <content>
                   <VBox fx:id="playerListVBox" prefHeight="541.0" prefWidth="208.0">
                      <children>
-                        <Label text=" Players info">
+                        <Label styleClass="playersLabel" text=" Players info">
                            <font>
                               <Font name="Bodoni MT" size="24.0" />
                            </font>

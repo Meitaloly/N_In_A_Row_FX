@@ -492,7 +492,7 @@ public class GameController {
         //int index = gameManager.getTurnIndex();
         gameManager.incCurrPlayerTurn();
         gameManager.incTurnIndex();
-        //setTurnsToScreen();    ////////////// not working with comp player
+        setTurnsToScreen();    ////////////// not working with comp player
         currPlayer = gameManager.getPlayersByOrder().get(gameManager.getTurnIndex());
         dickColor = currPlayer.getPlayerColor();
         while (!currPlayer.isAcive()) {
@@ -592,7 +592,7 @@ public class GameController {
     public void leaveTheGame(){
         VBox VBtemp = (VBox)playerListVBox.getChildren().get(gameManager.getTurnIndex());
         Label temp = (Label)VBtemp.getChildren().get(1);
-        temp.setText("Name: " + currPlayer.getName() + " (leave the game.");
+        temp.setText("Name: " + currPlayer.getName() + " (left the game.");
         gameManager.getGameBoard().removeAllDisksOfPlayer(currPlayer);
         for (int col = 0 ; col < gameManager.getGameBoard().getCols(); col++){
             removeDiskFromCol(col);
