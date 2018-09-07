@@ -592,7 +592,7 @@ public class GameController {
     }
 
     public void leaveTheGame(){
-        VBox VBtemp = (VBox)playerListVBox.getChildren().get(gameManager.getTurnIndex());
+        VBox VBtemp = (VBox)playerListVBox.getChildren().get(gameManager.getTurnIndex()+1);
         Label temp = (Label)VBtemp.getChildren().get(1);
         temp.setText("Name: " + currPlayer.getName() + " (left the game.");
         gameManager.getGameBoard().removeAllDisksOfPlayer(currPlayer);
