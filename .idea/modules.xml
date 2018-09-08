@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/JavaFX_UI/JavaFX_UI.iml" filepath="$PROJECT_DIR$/JavaFX_UI/JavaFX_UI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LogicEngine/LogicEngine.iml" filepath="$PROJECT_DIR$/LogicEngine/LogicEngine.iml" />
       <module fileurl="file://$PROJECT_DIR$/N_In_A_Row_FX.iml" filepath="$PROJECT_DIR$/N_In_A_Row_FX.iml" />
     </modules>
   </component>

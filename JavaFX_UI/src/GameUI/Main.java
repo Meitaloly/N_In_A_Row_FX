@@ -18,7 +18,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader();
-        URL mainFXML = Main.class.getResource("main.fxml");
+        URL mainFXML = Main.class.getResource("/GameUI/main.fxml");
         loader.setLocation(mainFXML);
         primaryStage.setTitle("N IN A ROW GAME");
         Pane root = loader.load();

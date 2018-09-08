@@ -112,6 +112,7 @@ public class GameController {
         String PlayerName = currPlayer.getName();
         playerTurnLabel.setText("Current player name: " + PlayerName);
         if (currPlayer.getPlayerType().toUpperCase().equals("COMPUTER")) {
+            leaveGameBtn.setDisable(true);
             playerTurnLabel.setText("Current player name: " + PlayerName + " (Computer Calculate next step...)");
 
             try {
@@ -538,6 +539,7 @@ public class GameController {
         playerTurnLabel.setText("Current player name: " + currPlayer.getName());
         if(currPlayer.getPlayerType().toUpperCase().equals("COMPUTER"))
         {
+            leaveGameBtn.setDisable(true);
             playerTurnLabel.setText("Current player name: " + currPlayer.getName() + " (Computer calculate next step...)");
             try {
                 RunTask();
@@ -547,6 +549,7 @@ public class GameController {
         }
         else
         {
+            leaveGameBtn.setDisable(false);
             if(gameManager.getGameBoard().isBoardFull()) {
                 if (!gameManager.getVariant().toUpperCase().equals("POPOUT")) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION, "Board is full - game over! ");

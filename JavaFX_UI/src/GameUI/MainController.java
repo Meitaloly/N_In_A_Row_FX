@@ -91,7 +91,7 @@ public class MainController {
         int res = -1;
         try {
             FXMLLoader loader = new FXMLLoader();
-            URL loadFXML = Main.class.getResource("Loader.fxml");
+            URL loadFXML = Main.class.getResource("/GameUI/Loader.fxml");
             loader.setLocation(loadFXML);
             Stage LoaderStage= new Stage();
             LoaderStage.initStyle(StageStyle.UNDECORATED);
@@ -117,7 +117,7 @@ public class MainController {
     public void startGame() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            URL gameUrl = getClass().getResource("Game.fxml");
+            URL gameUrl = getClass().getResource("/GameUI/Game.fxml");
             loader.setLocation(gameUrl);
             gameStage = new Stage();
             gameStage.setTitle("N IN A ROW GAME");
