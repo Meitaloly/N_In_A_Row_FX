@@ -647,8 +647,17 @@ public class GameController {
 
     public void printWinner()
     {
+        String msg = "";
         Player winner = gameManager.getWinnerPlayer();
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, winner.getName()+ " WON!");
+        if(winner.getPlayerType().toUpperCase().equals("COMPUTER"))
+        {
+            msg= "Game Over - The only active player is computer!";
+        }
+        else
+        {
+          msg=winner.getName()+ " WON!";
+        }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, msg);
         alert.showAndWait();
         finishTheGame();
     }
