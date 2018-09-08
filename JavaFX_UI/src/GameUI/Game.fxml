@@ -18,7 +18,7 @@
          <children>
             <HBox fx:id="gameHeader" prefHeight="92.0" prefWidth="730.0">
                <children>
-                  <VBox prefHeight="42.0" prefWidth="242.0">
+                  <VBox prefHeight="42.0" prefWidth="279.0">
                      <children>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
