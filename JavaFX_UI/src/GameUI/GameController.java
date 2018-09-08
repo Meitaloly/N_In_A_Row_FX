@@ -233,7 +233,7 @@ public class GameController {
                                 nextTurnAction();
                                 currPlayer = gameManager.getPlayersByOrder().get(gameManager.getTurnIndex());
                                 gameManager.getGameBoard().printBoard(); // for debug
-                                removeDiskFromCol(col);
+                                removeDiskFromCol(col,false);
 
                             } else {
                                 Alert alert = new Alert(Alert.AlertType.WARNING, "Can't remove dick! Not your dick!");
@@ -287,7 +287,7 @@ public class GameController {
         return res;
     }
 
-    private void removeDiskFromCol(int col)
+    private void removeDiskFromCol(int col,boolean playerLeft)
     {
         VBox v = (VBox) centerArea.getChildren().get(col);
         v.getChildren().clear();
@@ -312,6 +312,13 @@ public class GameController {
             v.getChildren().add(newBtn);
         }
 
+        if(!playerLeft) {
+           checkAnyWinner(col);
+        }
+    }
+
+    private void checkAnyWinner(int col)
+    {
         List<String> winnersList = new ArrayList<>();
         List<Integer> signsOfWinners = new ArrayList<>();
 
@@ -320,8 +327,10 @@ public class GameController {
             String names = getNamesFromList(winnersList);
             Alert alert = new Alert(Alert.AlertType.INFORMATION, names + " WON!");
             alert.showAndWait();
+            finishTheGame();
         }
     }
+
 
     private String convertNumToColor(int num) {
         switch (num) {
@@ -532,10 +541,12 @@ public class GameController {
         gameManager.incCurrPlayerTurn();
         gameManager.incTurnIndex();
         currPlayer = gameManager.getPlayersByOrder().get(gameManager.getTurnIndex());
-        dickColor = currPlayer.getPlayerColor();
-        if (!currPlayer.isAcive()) {
-            nextTurnAction();
+        while(!currPlayer.isAcive())
+        {
+            gameManager.incTurnIndex();
+            currPlayer = gameManager.getPlayersByOrder().get(gameManager.getTurnIndex());
         }
+        dickColor = currPlayer.getPlayerColor();
         playerTurnLabel.setText("Current player name: " + currPlayer.getName());
         if(currPlayer.getPlayerType().toUpperCase().equals("COMPUTER"))
         {
@@ -603,7 +614,7 @@ public class GameController {
             if(computerChoice.getPopout())
             {
                 gameManager.getGameBoard().checkSignAndRemove(computerChoice.getChoosenCol(),currPlayer.getPlayerSign());
-                removeDiskFromCol(computerChoice.getChoosenCol());
+                removeDiskFromCol(computerChoice.getChoosenCol(),false);
             }
             else {
 
@@ -620,23 +631,13 @@ public class GameController {
         }
     }
 
-    public void switchBackground(){
-        //ImageView change = new ImageView();
-        //Image img = new Image("resoures/images/red-background.png");
-        mainBorderPane.getStyleClass().clear();
-        mainBorderPane.getStyleClass().add("style2");
-        //primaryStage.show();
-        showBoard();
-
-    }
-
     public void leaveTheGame(){
         VBox VBtemp = (VBox)playerListVBox.getChildren().get(gameManager.getTurnIndex()+1);
         Label temp = (Label)VBtemp.getChildren().get(1);
         temp.setText("Name: " + currPlayer.getName() + " (left the game.");
         gameManager.getGameBoard().removeAllDisksOfPlayer(currPlayer);
         for (int col = 0 ; col < gameManager.getGameBoard().getCols(); col++){
-            removeDiskFromCol(col);
+            removeDiskFromCol(col,true);
         }
         currPlayer.setDisable();
         if(gameManager.isOnlyOnePlayerLeft())
@@ -644,6 +645,9 @@ public class GameController {
             printWinner();
         }
         else {
+            for (int col = 0; col < gameManager.getGameBoard().getCols(); col++) {
+                checkAnyWinner(col);
+            }
             nextTurnAction();
         }
     }
