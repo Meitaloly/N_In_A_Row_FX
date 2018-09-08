@@ -78,11 +78,8 @@
 
 }
 
-.split-pane > .viewport {
-    -fx-background-color: transparent;
-}
 
-.split-pane{
+.splitPane{
     -fx-background:transparent;
 }
 

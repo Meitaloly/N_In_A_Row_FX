@@ -125,9 +125,9 @@
       </VBox>
    </top>
    <center>
-      <SplitPane dividerPositions="0.750906892382104" style="-fx-background-color: split-pane;" BorderPane.alignment="CENTER">
+      <SplitPane dividerPositions="0.750906892382104" style="-fx-background-color: transparent;" styleClass="splitPane" BorderPane.alignment="CENTER">
          <items>
-            <ScrollPane prefWidth="504.0" style="-fx-background-color: split-pane;" styleClass="split-pane">
+            <ScrollPane prefWidth="504.0" style="-fx-background-color: transparent;">
                <content>
                   <VBox>
                      <children>
@@ -143,7 +143,7 @@
                   </VBox>
                </content>
             </ScrollPane>
-            <ScrollPane style="-fx-background-color: split-pane;" styleClass="split-pane" SplitPane.resizableWithParent="false">
+            <ScrollPane style="-fx-background-color: transparent;" SplitPane.resizableWithParent="false">
                <content>
                   <VBox fx:id="playerListVBox" prefHeight="541.0" prefWidth="208.0">
                      <children>
