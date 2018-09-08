@@ -21,7 +21,7 @@
         <RowConstraints />
     </rowConstraints>
     <children>
-        <BorderPane prefHeight="600.0" prefWidth="1000.0" style="-fx-background-image: /;">
+        <BorderPane prefHeight="600.0" prefWidth="1000.0">
          <center>
                 <VBox prefHeight="386.0" prefWidth="751.0" BorderPane.alignment="CENTER">
                     <children>
